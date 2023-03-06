@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.arham4.gamecacheconfigplugin.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.arham4.gamecacheconfigplugin.MyBundle
 
 class MyApplicationService {
 
