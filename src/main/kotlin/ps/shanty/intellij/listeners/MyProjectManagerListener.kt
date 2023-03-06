@@ -1,9 +1,9 @@
-package com.github.arham4.gamecacheconfigplugin.listeners
+package ps.shanty.intellij.listeners
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import com.github.arham4.gamecacheconfigplugin.services.MyProjectService
+import ps.shanty.intellij.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 

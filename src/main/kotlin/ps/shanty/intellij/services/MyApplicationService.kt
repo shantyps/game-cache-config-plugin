@@ -1,6 +1,6 @@
-package com.github.arham4.gamecacheconfigplugin.services
+package ps.shanty.intellij.services
 
-import com.github.arham4.gamecacheconfigplugin.MyBundle
+import ps.shanty.intellij.MyBundle
 
 class MyApplicationService {
 

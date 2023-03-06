@@ -7,12 +7,12 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.arham4.gamecacheconfigplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.arham4.gamecacheconfigplugin.services.MyProjectService"/>
+        <applicationService serviceImplementation="ps.shanty.intellij.services.MyApplicationService"/>
+        <projectService serviceImplementation="ps.shanty.intellij.services.MyProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.arham4.gamecacheconfigplugin.listeners.MyProjectManagerListener"
+        <listener class="ps.shanty.intellij.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>

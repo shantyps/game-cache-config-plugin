@@ -1,4 +1,4 @@
-package com.github.arham4.gamecacheconfigplugin
+package ps.shanty.intellij
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
