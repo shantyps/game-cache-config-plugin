@@ -8,7 +8,7 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <psi.referenceContributor implementation="ps.shanty.intellij.listeners.GameCacheConfigReferenceContributor"/>
+        <psi.referenceContributor implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
     </extensions>
 
 </idea-plugin>

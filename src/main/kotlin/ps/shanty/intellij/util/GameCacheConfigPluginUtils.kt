@@ -5,11 +5,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.rpc.LOG
 import org.jetbrains.yaml.YAMLFileType
-import org.jetbrains.yaml.psi.YAMLKeyValue
-import ps.shanty.intellij.listeners.GameCacheConfigReferenceContributor
 
 
 object GameCacheConfigPluginUtils {

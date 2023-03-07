@@ -1,12 +1,9 @@
-package ps.shanty.intellij.listeners
+package ps.shanty.intellij.psi
 
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
-import com.intellij.psi.tree.IElementType
 import com.intellij.util.ProcessingContext
-import ps.shanty.intellij.psi.GameCacheConfigReference
 
 
 internal class GameCacheConfigReferenceContributor : PsiReferenceContributor() {
