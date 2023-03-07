@@ -12,7 +12,7 @@
     </extensions>
 
     <applicationListeners>
-        <listener class="ps.shanty.intellij.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="ps.shanty.intellij.listeners.GameCacheConfigReferenceContributor"
+                  topic="com.intellij.psi.PsiReferenceContributor"/>
     </applicationListeners>
 </idea-plugin>
