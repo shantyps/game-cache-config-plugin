@@ -5,14 +5,10 @@
     <vendor>arham4</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="ps.shanty.intellij.services.MyApplicationService"/>
-        <projectService serviceImplementation="ps.shanty.intellij.services.MyProjectService"/>
+        <psi.referenceContributor implementation="ps.shanty.intellij.listeners.GameCacheConfigReferenceContributor"/>
     </extensions>
 
-    <applicationListeners>
-        <listener class="ps.shanty.intellij.listeners.GameCacheConfigReferenceContributor"
-                  topic="com.intellij.psi.PsiReferenceContributor"/>
-    </applicationListeners>
 </idea-plugin>
