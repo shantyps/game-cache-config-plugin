@@ -2,7 +2,8 @@ package ps.shanty.intellij.psi
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import ps.shanty.intellij.util.GameCacheConfigPluginUtils
+import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.search.GlobalSearchScope
 
 
 internal class GameCacheConfigReference(
@@ -19,7 +20,7 @@ internal class GameCacheConfigReference(
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val project = myElement.project
-        val properties = GameCacheConfigPluginUtils.findProperties(project, key)
+        val properties = FilenameIndex.getFilesByName(project, "$key.yaml", GlobalSearchScope.allScope(project))
         val results = arrayListOf<ResolveResult>()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))
