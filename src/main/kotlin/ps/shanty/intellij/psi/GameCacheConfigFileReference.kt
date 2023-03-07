@@ -6,7 +6,7 @@ import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 
 
-internal class GameCacheConfigReference(
+internal class GameCacheConfigFileReference(
     element: PsiElement,
     textRange: TextRange,
 ) : PsiReferenceBase<PsiElement>(element, textRange), PsiPolyVariantReference {
