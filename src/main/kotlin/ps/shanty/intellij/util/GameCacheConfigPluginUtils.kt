@@ -9,13 +9,7 @@ import org.jetbrains.yaml.YAMLFileType
 
 
 object GameCacheConfigPluginUtils {
-    /**
-     * Searches the entire project for Simple language files with instances of the Simple property with the given key.
-     *
-     * @param project current project
-     * @param key     to check
-     * @return matching properties
-     */
+
     fun findProperties(project: Project, key: String): List<PsiFile> {
         val result = arrayListOf<PsiFile>()
         val virtualFiles = FileTypeIndex.getFiles(YAMLFileType.YML, GlobalSearchScope.allScope(project))
