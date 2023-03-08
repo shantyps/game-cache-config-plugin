@@ -9,7 +9,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
-        <backgroundPostStartupActivity implementation="ps.shanty.intellij.startup.GameCacheConfigExportsStartupActivity"/>
+        <postStartupActivity implementation="ps.shanty.intellij.startup.GameCacheConfigNameTablesStartupActivity"/>
     </extensions>
 
 </idea-plugin>
