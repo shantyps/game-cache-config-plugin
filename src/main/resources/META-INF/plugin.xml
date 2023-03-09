@@ -23,6 +23,79 @@
                                implementationClass="ps.shanty.intellij.parser.GameCacheConfigParserDefinition"/>
         <lang.elementManipulator forClass="ps.shanty.intellij.parser.GameCacheKeyValueImpl"
                                  implementationClass="org.jetbrains.yaml.psi.impl.YAMLKeyValueKeyManipulator"/>
+
+        <!-- copied from YAML's plugin.xml -->
+        <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/YAMLDarcula.xml"/>
+
+        <lang.formatter language="gameCacheConfig"
+                        implementationClass="ps.shanty.intellij.formatter.FormattingModelBuilder"/>
+        <typedHandler implementation="ps.shanty.intellij.formatter.HyphenTypedHandler"/>
+        <quoteHandler fileType="Game Cache Config File" className="org.jetbrains.yaml.smart.YamlQuoteHandler"/>
+        <lang.commenter language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
+        <lang.syntaxHighlighterFactory language="gameCacheConfig"
+                                       implementationClass="org.jetbrains.yaml.YAMLSyntaxHighlighterFactory"/>
+        <lang.braceMatcher language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLPairedBraceMatcher"/>
+        <lang.findUsagesProvider language="gameCacheConfig" id="yamlFindUsagesProvider"
+                                 implementationClass="org.jetbrains.yaml.YAMLFindUsagesProvider"/>
+        <lang.foldingBuilder language="gameCacheConfig" id="YAMLFoldingBuilder"
+                             implementationClass="org.jetbrains.yaml.folding.YAMLFoldingBuilder"/>
+        <editor.backspaceModeOverride language="gameCacheConfig"
+                                      implementationClass="com.intellij.codeInsight.editorActions.SmartBackspaceDisabler"/>
+        <lang.psiStructureViewFactory language="gameCacheConfig"
+                                      implementationClass="org.jetbrains.yaml.structureView.YAMLStructureViewFactory"/>
+        <lang.whiteSpaceFormattingStrategy language="gameCacheConfig"
+                                           implementationClass="ps.shanty.intellij.formatter.GameCacheConfigWhiteSpaceFormattingStrategy"/>
+        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.formatter.GameCacheConfigStripTrailingSpacesFilterFactory"/>
+        <completion.contributor order="first" language="gameCacheConfig" id="YamlJsonSchema"
+                                implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaCompletionContributor"/>
+        <lang.documentationProvider language="gameCacheConfig"
+                                    implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDocumentationProvider"
+                                    id="YamlJsonSchemaDocumentationProvider"/>
+        <lang.refactoringSupport language="gameCacheConfig"
+                                 implementationClass="org.jetbrains.yaml.resolve.YAMLRefactoringSupportProvider"/>
+        <languageInjectionContributor implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaLanguageInjector"
+                                      language="gameCacheConfig"/>
+        <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
+                                    language="gameCacheConfig"/>
+        <annotator language="gameCacheConfig"
+                   implementationClass="org.jetbrains.yaml.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
+
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigUnresolvedAlias"
+                         key="inspections.unresolved.alias.name" level="ERROR"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnresolvedAliasInspection"/>
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigRecursiveAlias"
+                         key="inspections.recursive.alias.name" level="ERROR"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="org.jetbrains.yaml.inspections.YAMLRecursiveAliasInspection"/>
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigDuplicatedKeys" level="ERROR"
+                         key="inspections.duplicated.keys.name"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="org.jetbrains.yaml.inspections.YAMLDuplicatedKeysInspection"/>
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigUnusedAnchor"
+                         key="inspections.unused.anchor.name" level="WARNING"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnusedAnchorInspection"/>
+
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigSchemaValidation"
+                         key="inspections.schema.validation.name"
+                         groupKey="inspections.group.name"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
+        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
+                         shortName="GameCacheConfigSchemaDeprecation"
+                         key="inspections.schema.deprecation.name"
+                         groupKey="inspections.group.name"
+                         enabledByDefault="true"
+                         level="WEAK WARNING"
+                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDeprecationInspection"/>
     </extensions>
 
 </idea-plugin>
