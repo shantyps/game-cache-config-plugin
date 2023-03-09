@@ -1,4 +1,4 @@
-# game-cache-config-plugin
+# Shanty Game Cache Config Plugin
 
 ![Build](https://github.com/shantyps/game-cache-config-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
