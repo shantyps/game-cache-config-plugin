@@ -1,15 +1,28 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.arham4.gamecacheconfigplugin</id>
-    <name>IntelliJ Platform Plugin game-cache-config-plugin</name>
+    <name>Shanty Game Cache Config Plugin</name>
+    <description><![CDATA[
+        This plugin resolves Shanty game cache config YAML files to have references within them, allowing for CTRL + Click navigation to defined YAML files.
+    ]]></description>
     <vendor>arham4</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <psi.referenceContributor implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
+
+        <fileType name="Game Cache Config File" implementationClass="ps.shanty.intellij.parser.GameCacheConfigFileType"
+                  fieldName="GAME_CACHE_CONFIG" language="gameCacheConfig" extensions="mod;enum;struct;obj;npc"/>
+
+        <psi.referenceContributor language="gameCacheConfig"
+                                  implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
         <postStartupActivity implementation="ps.shanty.intellij.startup.GameCacheConfigNameTablesStartupActivity"/>
+
+        <lang.parserDefinition language="gameCacheConfig"
+                               implementationClass="ps.shanty.intellij.parser.GameCacheConfigParserDefinition"/>
+        <lang.elementManipulator forClass="ps.shanty.intellij.parser.GameCacheKeyValueImpl"
+                                 implementationClass="org.jetbrains.yaml.psi.impl.YAMLKeyValueKeyManipulator"/>
     </extensions>
 
 </idea-plugin>
