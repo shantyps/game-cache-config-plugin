@@ -4,4 +4,6 @@
 
 ## [Unreleased]
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- Fix for renaming adding file extension for mod files. 
+- Fix for renaming formatting. 
+- Add duplicate SNT entry checking.
