@@ -19,7 +19,7 @@ class SNTFileType : LanguageFileType(SNTLanguage.INSTANCE) {
     }
 
     override fun getIcon(): Icon {
-        return PluginIcons.LOGO
+        return PluginIcons.CHART
     }
 
     companion object {
