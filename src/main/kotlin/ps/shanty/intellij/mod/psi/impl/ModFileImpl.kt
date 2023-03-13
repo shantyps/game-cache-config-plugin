@@ -1,4 +1,4 @@
-package ps.shanty.intellij.mod.psi
+package ps.shanty.intellij.mod.psi.impl
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
@@ -8,6 +8,7 @@ import org.jetbrains.yaml.psi.YAMLDocument
 import ps.shanty.intellij.mod.ModElementTypes
 import ps.shanty.intellij.mod.ModLanguage
 import ps.shanty.intellij.mod.ModFileType
+import ps.shanty.intellij.mod.psi.ModFile
 
 class ModFileImpl(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ModLanguage.INSTANCE),
     ModFile {

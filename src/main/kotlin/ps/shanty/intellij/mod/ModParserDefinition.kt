@@ -11,7 +11,7 @@ import com.intellij.psi.tree.TokenSet
 import org.jetbrains.yaml.YAMLParserDefinition
 import org.jetbrains.yaml.psi.impl.*
 import ps.shanty.intellij.mod.parser.ModParser
-import ps.shanty.intellij.mod.psi.ModFileImpl
+import ps.shanty.intellij.mod.psi.impl.ModFileImpl
 
 class ModParserDefinition : YAMLParserDefinition() {
 
