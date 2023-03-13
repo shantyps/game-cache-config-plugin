@@ -3,9 +3,10 @@ package ps.shanty.intellij.mod.resolve
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import com.intellij.psi.search.GlobalSearchScope
 import ps.shanty.intellij.mod.smart.ModQuoteHandler
 import ps.shanty.intellij.mod.util.ModUtil.findFiles
-import ps.shanty.intellij.snt.SNTEntries
+import ps.shanty.intellij.snt.SNTKeyIndex
 
 
 internal class ModReference(
@@ -24,14 +25,14 @@ internal class ModReference(
         val project = myElement.project
         val results = mutableListOf<ResolveResult>()
         results.addAll(multiResolveFileReference(project))
-        if (results.isEmpty() && SNTEntries.INSTANCE.tableEntryForName.containsKey(key)) {
-            results.addAll(multiResolveNameReference())
+        if (results.isEmpty()) {
+            results.addAll(multiResolveNameReference(project))
         }
         return results.toTypedArray()
     }
 
-    private fun multiResolveNameReference(): Array<ResolveResult> {
-        val properties = SNTEntries.INSTANCE.tableEntryForName[key]!!
+    private fun multiResolveFileReference(project: Project): Array<ResolveResult> {
+        val properties = findFiles(project, key)
         val results = arrayListOf<ResolveResult>()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))
@@ -39,8 +40,8 @@ internal class ModReference(
         return results.toTypedArray()
     }
 
-    private fun multiResolveFileReference(project: Project): Array<ResolveResult> {
-        val properties = findFiles(project, key)
+    private fun multiResolveNameReference(project: Project): Array<ResolveResult> {
+        val properties = SNTKeyIndex.instance.get(key, project, GlobalSearchScope.allScope(project))
         val results = arrayListOf<ResolveResult>()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))

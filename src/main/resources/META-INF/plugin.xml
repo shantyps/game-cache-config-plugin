@@ -62,8 +62,6 @@
 
         <annotator language="snt" implementationClass="ps.shanty.intellij.snt.SNTAnnotator"/>
 
-        <postStartupActivity implementation="ps.shanty.intellij.snt.SNTStartupActivity"/>
-
         <!-- copied from YAML's plugin.xml for mod files -->
         <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/YAMLDarcula.xml"/>
