@@ -17,13 +17,13 @@ import com.intellij.util.ObjectUtils
 import com.intellij.util.containers.FactoryMap
 import one.util.streamex.StreamEx
 import org.jetbrains.yaml.YAMLTokenTypes
+import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLSequence
 import org.jetbrains.yaml.psi.YAMLSequenceItem
 import org.jetbrains.yaml.psi.YAMLValue
 import ps.shanty.intellij.mod.ModElementTypes
 import ps.shanty.intellij.mod.ModFileType
 import ps.shanty.intellij.mod.ModLanguage
-import ps.shanty.intellij.mod.psi.ModKeyValue
 import java.util.*
 import java.util.function.Predicate
 
@@ -237,7 +237,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
                 )
             }
         if (PsiUtilCore.getElementType(node) === ModElementTypes.KEY_VALUE_PAIR) {
-            val value = (node.psi as ModKeyValue).value
+            val value = (node.psi as YAMLKeyValue).value
             if (possiblyIncompleteValue.test(value)) {
                 return true
             }

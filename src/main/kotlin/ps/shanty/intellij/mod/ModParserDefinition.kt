@@ -12,7 +12,6 @@ import org.jetbrains.yaml.YAMLParserDefinition
 import org.jetbrains.yaml.psi.impl.*
 import ps.shanty.intellij.mod.parser.ModParser
 import ps.shanty.intellij.mod.psi.ModFileImpl
-import ps.shanty.intellij.mod.psi.impl.ModKeyValueImpl
 
 class ModParserDefinition : YAMLParserDefinition() {
 
@@ -22,7 +21,7 @@ class ModParserDefinition : YAMLParserDefinition() {
             return YAMLDocumentImpl(node)
         }
         if (type === ModElementTypes.KEY_VALUE_PAIR) {
-            return ModKeyValueImpl(node)
+            return YAMLKeyValueImpl(node)
         }
         if (type === ModElementTypes.COMPOUND_VALUE) {
             return YAMLCompoundValueImpl(node)

@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import ps.shanty.intellij.mod.psi.ModKeyValue
+import org.jetbrains.yaml.psi.YAMLKeyValue
 
 class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
 
@@ -64,7 +64,7 @@ class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
             }
 
             for (file in files) {
-                val properties = PsiTreeUtil.collectElementsOfType(file, ModKeyValue::class.java)
+                val properties = PsiTreeUtil.collectElementsOfType(file, YAMLKeyValue::class.java)
                 for (property in properties) {
                     if (property.keyText == "name") {
                         references.putIfAbsent(property.valueText, mutableListOf())
