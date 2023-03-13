@@ -5,7 +5,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import ps.shanty.intellij.data.GameCacheConfigNames
+import ps.shanty.intellij.data.ShantyNameTableEntries
 import ps.shanty.intellij.parser.GameCacheConfigQuoteHandler
 
 
@@ -25,14 +25,14 @@ internal class GameCacheConfigReference(
         val project = myElement.project
         val results = mutableListOf<ResolveResult>()
         results.addAll(multiResolveFileReference(project))
-        if (results.isEmpty() && GameCacheConfigNames.INSTANCE.configElements.containsKey(key)) {
+        if (results.isEmpty() && ShantyNameTableEntries.INSTANCE.tableEntryForName.containsKey(key)) {
             results.addAll(multiResolveNameReference())
         }
         return results.toTypedArray()
     }
 
     private fun multiResolveNameReference(): Array<ResolveResult> {
-        val properties = GameCacheConfigNames.INSTANCE.configElements[key]!!
+        val properties = ShantyNameTableEntries.INSTANCE.tableEntryForName[key]!!
         val results = arrayListOf<ResolveResult>()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))

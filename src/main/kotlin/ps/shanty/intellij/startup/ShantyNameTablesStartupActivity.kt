@@ -8,9 +8,10 @@ import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.yaml.psi.YAMLKeyValue
-import ps.shanty.intellij.data.GameCacheConfigNames
+import ps.shanty.intellij.data.ShantyNameTableEntries
+import ps.shanty.intellij.parser.GameCacheConfigKeyValue
 
-class GameCacheConfigNameTablesStartupActivity : StartupActivity.DumbAware {
+class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
 
     override fun runActivity(project: Project) {
         val references = hashMapOf<String, MutableList<PsiElement>>()
@@ -49,7 +50,7 @@ class GameCacheConfigNameTablesStartupActivity : StartupActivity.DumbAware {
         loadConfigFile(project, references, "varp")
         loadConfigFile(project, references, "varstring")
 
-        GameCacheConfigNames.INSTANCE.configElements = references
+        ShantyNameTableEntries.INSTANCE.tableEntryForName = references
     }
 
     private fun loadConfigFile(
@@ -58,14 +59,14 @@ class GameCacheConfigNameTablesStartupActivity : StartupActivity.DumbAware {
         config: String,
     ) {
         ApplicationManager.getApplication().runReadAction {
-            val files = FilenameIndex.getFilesByName(project, "$config.yaml", GlobalSearchScope.allScope(project))
+            val files = FilenameIndex.getFilesByName(project, "$config.snt", GlobalSearchScope.allScope(project))
 
             if (files.isEmpty()) {
                 return@runReadAction
             }
 
             for (file in files) {
-                val properties = PsiTreeUtil.collectElementsOfType(file, YAMLKeyValue::class.java)
+                val properties = PsiTreeUtil.collectElementsOfType(file, GameCacheConfigKeyValue::class.java)
                 for (property in properties) {
                     if (property.keyText == "name") {
                         references.putIfAbsent(property.valueText, mutableListOf())

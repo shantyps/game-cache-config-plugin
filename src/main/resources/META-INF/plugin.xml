@@ -17,7 +17,7 @@
 
         <psi.referenceContributor language="gameCacheConfig"
                                   implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
-        <postStartupActivity implementation="ps.shanty.intellij.startup.GameCacheConfigNameTablesStartupActivity"/>
+        <postStartupActivity implementation="ps.shanty.intellij.startup.ShantyNameTablesStartupActivity"/>
 
         <lang.parserDefinition language="gameCacheConfig"
                                implementationClass="ps.shanty.intellij.parser.GameCacheConfigParserDefinition"/>
