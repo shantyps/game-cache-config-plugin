@@ -42,6 +42,7 @@
         <lang.whiteSpaceFormattingStrategy language="mod"
                                            implementationClass="ps.shanty.intellij.mod.formatter.ModWhiteSpaceFormattingStrategy"/>
         <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.mod.formatter.ModStripTrailingSpacesFilterFactory"/>
+        <renamePsiElementProcessor implementation="ps.shanty.intellij.mod.RenameModFileProcessor"/>
 
         <annotator language="mod"
                    implementationClass="ps.shanty.intellij.mod.annotator.ModSameLineCompositeValueErrorAnnotator"/>

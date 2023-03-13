@@ -24,13 +24,4 @@ class ModQuoteHandler : QuoteHandler {
     override fun hasNonClosedLiteral(editor: Editor, iterator: HighlighterIterator, offset: Int): Boolean = isOneQuote(iterator)
 
     override fun isInsideLiteral(iterator: HighlighterIterator): Boolean = false
-
-    companion object {
-        fun removeQuotes(key: String): String {
-            if (key.startsWith("\"") && key.endsWith("\"")) {
-                return key.substring(1, key.length - 1)
-            }
-            return key
-        }
-    }
 }

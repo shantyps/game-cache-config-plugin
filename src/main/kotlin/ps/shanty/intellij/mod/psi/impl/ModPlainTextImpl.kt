@@ -10,6 +10,10 @@ class ModPlainTextImpl(node: ASTNode) : YAMLPlainTextImpl(node) {
         return super.getEncodeReplacements(input)
     }
 
+    override fun toString(): String {
+        return "Mod plain scalar text"
+    }
+
     companion object {
         @Throws(IndexOutOfBoundsException::class)
         fun processReplacements(

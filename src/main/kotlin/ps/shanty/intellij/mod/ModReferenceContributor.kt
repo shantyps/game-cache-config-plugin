@@ -14,7 +14,6 @@ internal class ModReferenceContributor : PsiReferenceContributor() {
     }
 
     private class GameCacheConfigReferenceProvider : PsiReferenceProvider() {
-
         override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
             val text = element.text
 
@@ -22,7 +21,11 @@ internal class ModReferenceContributor : PsiReferenceContributor() {
             if (words.size != 1) {
                 return PsiReference.EMPTY_ARRAY
             }
-            return arrayOf(ModReference(element, TextRange.allOf(words[0])))
+            var range = TextRange.allOf(words[0])
+            if (words[0].startsWith("\"") && words[0].endsWith("\"")) {
+                range = TextRange.create(1, words[0].length - 1)
+            }
+            return arrayOf(ModReference(element, range))
         }
     }
 }

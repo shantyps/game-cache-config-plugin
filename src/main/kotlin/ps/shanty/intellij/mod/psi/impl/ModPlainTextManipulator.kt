@@ -10,13 +10,6 @@ import org.jetbrains.yaml.psi.impl.YAMLPlainTextImpl
 import ps.shanty.intellij.mod.ModElementGenerator
 
 class ModPlainTextManipulator : AbstractElementManipulator<ModPlainTextImpl>() {
-    override fun getRangeInElement(element: ModPlainTextImpl): TextRange {
-        val ranges = element.contentRanges
-        return if (ranges.isEmpty()) {
-            TextRange.EMPTY_RANGE
-        } else TextRange.create(ranges[0].startOffset, ranges[ranges.size - 1].endOffset)
-    }
-
     @Throws(IncorrectOperationException::class)
     override fun handleContentChange(element: ModPlainTextImpl, range: TextRange, newContent: String): ModPlainTextImpl {
         return try {

@@ -14,7 +14,7 @@ internal class ModReference(
     textRange: TextRange,
 ) : PsiReferenceBase<PsiElement>(element, textRange), PsiPolyVariantReference {
 
-    private val key = ModQuoteHandler.removeQuotes(element.text.substring(textRange.startOffset, textRange.endOffset))
+    private val key = element.text.substring(textRange.startOffset, textRange.endOffset)
 
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)
