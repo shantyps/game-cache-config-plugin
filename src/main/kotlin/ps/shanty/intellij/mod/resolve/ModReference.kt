@@ -3,9 +3,8 @@ package ps.shanty.intellij.mod.resolve
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
 import ps.shanty.intellij.mod.smart.ModQuoteHandler
+import ps.shanty.intellij.mod.util.ModUtil.findFiles
 import ps.shanty.intellij.snt.SNTEntries
 
 
@@ -41,7 +40,7 @@ internal class ModReference(
     }
 
     private fun multiResolveFileReference(project: Project): Array<ResolveResult> {
-        val properties = FilenameIndex.getFilesByName(project, "$key.yaml", GlobalSearchScope.allScope(project))
+        val properties = findFiles(project, key)
         val results = arrayListOf<ResolveResult>()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))

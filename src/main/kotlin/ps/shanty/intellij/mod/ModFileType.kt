@@ -25,6 +25,7 @@ class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
     companion object {
         @JvmStatic
         val MOD = ModFileType()
-        val DEFAULT_EXTENSION = "mod"
+        const val DEFAULT_EXTENSION = "mod"
+        const val ALL_EXTENSIONS = "mod;enum;struct;obj;npc"
     }
 }
