@@ -6,6 +6,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import ps.shanty.intellij.data.GameCacheConfigNames
+import ps.shanty.intellij.parser.GameCacheConfigQuoteHandler
 
 
 internal class GameCacheConfigReference(
@@ -13,7 +14,7 @@ internal class GameCacheConfigReference(
     textRange: TextRange,
 ) : PsiReferenceBase<PsiElement>(element, textRange), PsiPolyVariantReference {
 
-    private val key = element.text.substring(textRange.startOffset, textRange.endOffset)
+    private val key = GameCacheConfigQuoteHandler.removeQuotes(element.text.substring(textRange.startOffset, textRange.endOffset))
 
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)

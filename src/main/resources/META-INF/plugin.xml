@@ -23,6 +23,7 @@
                                implementationClass="ps.shanty.intellij.parser.GameCacheConfigParserDefinition"/>
         <lang.elementManipulator forClass="ps.shanty.intellij.parser.GameCacheKeyValueImpl"
                                  implementationClass="org.jetbrains.yaml.psi.impl.YAMLKeyValueKeyManipulator"/>
+        <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.parser.GameCacheConfigQuoteHandler"/>
 
         <!-- copied from YAML's plugin.xml -->
         <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
@@ -31,13 +32,10 @@
         <lang.formatter language="gameCacheConfig"
                         implementationClass="ps.shanty.intellij.formatter.FormattingModelBuilder"/>
         <typedHandler implementation="ps.shanty.intellij.formatter.HyphenTypedHandler"/>
-        <quoteHandler fileType="Game Cache Config File" className="org.jetbrains.yaml.smart.YamlQuoteHandler"/>
         <lang.commenter language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
         <lang.syntaxHighlighterFactory language="gameCacheConfig"
                                        implementationClass="org.jetbrains.yaml.YAMLSyntaxHighlighterFactory"/>
         <lang.braceMatcher language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLPairedBraceMatcher"/>
-        <lang.findUsagesProvider language="gameCacheConfig" id="yamlFindUsagesProvider"
-                                 implementationClass="org.jetbrains.yaml.YAMLFindUsagesProvider"/>
         <lang.foldingBuilder language="gameCacheConfig" id="YAMLFoldingBuilder"
                              implementationClass="org.jetbrains.yaml.folding.YAMLFoldingBuilder"/>
         <editor.backspaceModeOverride language="gameCacheConfig"
