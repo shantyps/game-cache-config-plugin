@@ -17,7 +17,7 @@ class SNTKeyIndex : StringStubIndexExtension<SNTEntry>() {
     }
 
     companion object {
-        val KEY = StubIndexKey.createIndexKey<String, SNTEntry>("snt.index")
+        val KEY = StubIndexKey.createIndexKey<String, SNTEntry>("snt.key.index")
         val instance = SNTKeyIndex()
     }
 }
