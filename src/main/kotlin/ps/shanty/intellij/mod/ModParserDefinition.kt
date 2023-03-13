@@ -11,8 +11,7 @@ import com.intellij.psi.tree.TokenSet
 import org.jetbrains.yaml.YAMLParserDefinition
 import org.jetbrains.yaml.psi.impl.*
 import ps.shanty.intellij.mod.parser.ModParser
-import ps.shanty.intellij.mod.psi.impl.ModBlockMappingImpl
-import ps.shanty.intellij.mod.psi.impl.ModFileImpl
+import ps.shanty.intellij.mod.psi.impl.*
 
 class ModParserDefinition : YAMLParserDefinition() {
 
@@ -49,7 +48,7 @@ class ModParserDefinition : YAMLParserDefinition() {
             return YAMLScalarTextImpl(node)
         }
         if (type === ModElementTypes.SCALAR_PLAIN_VALUE) {
-            return YAMLPlainTextImpl(node)
+            return ModPlainTextImpl(node)
         }
         if (type === ModElementTypes.SCALAR_QUOTED_STRING) {
             return YAMLQuotedTextImpl(node)

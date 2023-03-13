@@ -33,6 +33,8 @@
                                implementationClass="ps.shanty.intellij.mod.ModParserDefinition"/>
         <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.mod.smart.ModQuoteHandler"/>
 
+        <lang.elementManipulator forClass="ps.shanty.intellij.mod.psi.impl.ModPlainTextImpl"
+                                 implementationClass="ps.shanty.intellij.mod.psi.impl.ModPlainTextManipulator"/>
         <lang.formatter language="mod"
                         implementationClass="ps.shanty.intellij.mod.formatter.ModFormattingModelBuilder"/>
         <lang.whiteSpaceFormattingStrategy language="mod"
@@ -44,6 +46,8 @@
         <typedHandler implementation="ps.shanty.intellij.mod.formatter.ModHyphenTypedHandler"/>
 
         <langCodeStyleSettingsProvider implementation="ps.shanty.intellij.mod.ModLanguageCodeStyleSettingsProvider"/>
+
+        <projectService serviceImplementation="ps.shanty.intellij.mod.ModElementGenerator"/>
 
         <!-- SNT files -->
         <fileType name="Shanty Name Table File" implementationClass="ps.shanty.intellij.snt.SNTFileType"

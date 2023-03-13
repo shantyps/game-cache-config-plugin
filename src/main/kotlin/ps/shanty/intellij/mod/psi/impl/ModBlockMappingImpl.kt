@@ -5,11 +5,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.SmartList
-import org.jetbrains.yaml.YAMLElementGenerator
 import org.jetbrains.yaml.YAMLTokenTypes
 import org.jetbrains.yaml.YAMLUtil
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.impl.YAMLBlockMappingImpl
+import ps.shanty.intellij.mod.ModElementGenerator
 import ps.shanty.intellij.mod.ModElementTypes
 
 class ModBlockMappingImpl(node: ASTNode) : YAMLBlockMappingImpl(node) {
@@ -48,7 +48,7 @@ class ModBlockMappingImpl(node: ASTNode) : YAMLBlockMappingImpl(node) {
 
     private fun addNewKeyToTheEnd(key: YAMLKeyValue) {
         val indent = YAMLUtil.getIndentToThisElement(this)
-        val generator = YAMLElementGenerator.getInstance(project)
+        val generator = ModElementGenerator.getInstance(project)
         val lastChildType = PsiUtilCore.getElementType(lastChild)
         if (indent == 0) {
             if (lastChildType !== YAMLTokenTypes.EOL) {
