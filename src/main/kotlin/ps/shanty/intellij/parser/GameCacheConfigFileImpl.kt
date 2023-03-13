@@ -20,7 +20,7 @@ class GameCacheConfigFileImpl(viewProvider: FileViewProvider) : PsiFileBase(view
 
     override fun getDocuments(): List<YAMLDocument> {
         val result = ArrayList<YAMLDocument>()
-        for (node in node.getChildren(TokenSet.create(YAMLElementTypes.DOCUMENT))) {
+        for (node in node.getChildren(TokenSet.create(GameCacheConfigElementTypes.DOCUMENT))) {
             result.add(node.psi as YAMLDocument)
         }
         return result
