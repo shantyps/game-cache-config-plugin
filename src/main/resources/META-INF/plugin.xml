@@ -33,10 +33,6 @@
 
         <postStartupActivity implementation="ps.shanty.intellij.snt.SNTStartupActivity"/>
 
-        <lang.parserDefinition language="snt"
-                               implementationClass="ps.shanty.intellij.snt.SNTParserDefinition"/>
-        <quoteHandler fileType="Game Cache Config Table File" className="ps.shanty.intellij.snt.smart.SNTQuoteHandler"/>
-
         <!-- copied from YAML's plugin.xml for mod files -->
         <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/YAMLDarcula.xml"/>
@@ -101,73 +97,6 @@
                          implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
         <localInspection language="mod" bundle="messages.YAMLBundle"
                          shortName="modSchemaDeprecation"
-                         key="inspections.schema.deprecation.name"
-                         groupKey="inspections.group.name"
-                         enabledByDefault="true"
-                         level="WEAK WARNING"
-                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDeprecationInspection"/>
-
-        <!-- copied from YAML's plugin.xml for SNT files -->
-        <lang.formatter language="snt"
-                        implementationClass="ps.shanty.intellij.snt.formatter.SNTFormattingModelBuilder"/>
-        <typedHandler implementation="ps.shanty.intellij.snt.formatter.SNTHyphenTypedHandler"/>
-        <lang.commenter language="snt" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
-        <lang.syntaxHighlighterFactory language="snt"
-                                       implementationClass="org.jetbrains.yaml.YAMLSyntaxHighlighterFactory"/>
-        <lang.braceMatcher language="snt" implementationClass="org.jetbrains.yaml.YAMLPairedBraceMatcher"/>
-        <lang.foldingBuilder language="snt" id="SNTFoldingBuilder"
-                             implementationClass="org.jetbrains.yaml.folding.YAMLFoldingBuilder"/>
-        <editor.backspaceModeOverride language="snt"
-                                      implementationClass="com.intellij.codeInsight.editorActions.SmartBackspaceDisabler"/>
-        <lang.psiStructureViewFactory language="snt"
-                                      implementationClass="org.jetbrains.yaml.structureView.YAMLStructureViewFactory"/>
-        <lang.whiteSpaceFormattingStrategy language="snt"
-                                           implementationClass="ps.shanty.intellij.snt.formatter.SNTWhiteSpaceFormattingStrategy"/>
-        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.snt.formatter.SNTStripTrailingSpacesFilterFactory"/>
-        <completion.contributor order="first" language="snt" id="SNTJsonSchema"
-                                implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaCompletionContributor"/>
-        <lang.documentationProvider language="snt"
-                                    implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDocumentationProvider"
-                                    id="SNTJsonSchemaDocumentationProvider"/>
-        <lang.refactoringSupport language="snt"
-                                 implementationClass="org.jetbrains.yaml.resolve.YAMLRefactoringSupportProvider"/>
-        <languageInjectionContributor implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaLanguageInjector"
-                                      language="snt"/>
-        <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
-                                    language="snt"/>
-        <annotator language="snt"
-                   implementationClass="ps.shanty.intellij.mod.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
-
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntUnresolvedAlias"
-                         key="inspections.unresolved.alias.name" level="ERROR"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnresolvedAliasInspection"/>
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntRecursiveAlias"
-                         key="inspections.recursive.alias.name" level="ERROR"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLRecursiveAliasInspection"/>
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntDuplicatedKeys" level="ERROR"
-                         key="inspections.duplicated.keys.name"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLDuplicatedKeysInspection"/>
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntUnusedAnchor"
-                         key="inspections.unused.anchor.name" level="WARNING"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnusedAnchorInspection"/>
-
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntSchemaValidation"
-                         key="inspections.schema.validation.name"
-                         groupKey="inspections.group.name"
-                         enabledByDefault="true"
-                         level="WARNING"
-                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
-        <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="sntSchemaDeprecation"
                          key="inspections.schema.deprecation.name"
                          groupKey="inspections.group.name"
                          enabledByDefault="true"

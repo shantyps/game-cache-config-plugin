@@ -1,6 +1,7 @@
 package ps.shanty.intellij.snt
 
 import com.intellij.openapi.fileTypes.LanguageFileType
+import ps.shanty.intellij.PluginIcons
 import javax.swing.Icon
 
 class SNTFileType : LanguageFileType(SNTLanguage.INSTANCE) {
@@ -18,7 +19,7 @@ class SNTFileType : LanguageFileType(SNTLanguage.INSTANCE) {
     }
 
     override fun getIcon(): Icon {
-        return SNTIcons.LOGO
+        return PluginIcons.LOGO
     }
 
     companion object {

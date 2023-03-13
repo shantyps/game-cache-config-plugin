@@ -1,6 +1,7 @@
 package ps.shanty.intellij.mod
 
 import com.intellij.openapi.fileTypes.LanguageFileType
+import ps.shanty.intellij.PluginIcons
 import javax.swing.Icon
 
 class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
@@ -18,7 +19,7 @@ class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
     }
 
     override fun getIcon(): Icon {
-        return ModIcons.LOGO
+        return PluginIcons.LOGO
     }
 
     companion object {
