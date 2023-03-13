@@ -7,7 +7,7 @@ import javax.swing.Icon
 class SNTFileType : LanguageFileType(SNTLanguage.INSTANCE) {
 
     override fun getName(): String {
-        return "Game Cache Config Table File"
+        return "Shanty Name Table File"
     }
 
     override fun getDescription(): String {

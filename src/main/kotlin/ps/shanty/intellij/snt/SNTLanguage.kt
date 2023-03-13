@@ -4,7 +4,7 @@ import com.intellij.lang.Language
 
 class SNTLanguage : Language("snt") {
     override fun getDisplayName(): String {
-        return "Game Cache Config Table"
+        return "Shanty Name Table"
     }
 
     companion object {

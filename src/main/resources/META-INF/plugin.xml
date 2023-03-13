@@ -9,8 +9,16 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
+    <depends>com.intellij.properties</depends>
 
     <resource-bundle>messages.ModBundle</resource-bundle>
+    <resource-bundle>messages.SNTBundle</resource-bundle>
+
+    <extensionPoints>
+        <extensionPoint name="duplicateSNTEntryKeyAnnotationSuppressor"
+                        interface="ps.shanty.intellij.snt.DuplicateSNTEntryKeyAnnotationSuppressor"
+                        dynamic="true"/>
+    </extensionPoints>
 
     <extensions defaultExtensionNs="com.intellij">
 
@@ -25,11 +33,34 @@
                                implementationClass="ps.shanty.intellij.mod.ModParserDefinition"/>
         <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.mod.smart.ModQuoteHandler"/>
 
+        <lang.formatter language="mod"
+                        implementationClass="ps.shanty.intellij.mod.formatter.ModFormattingModelBuilder"/>
+        <lang.whiteSpaceFormattingStrategy language="mod"
+                                           implementationClass="ps.shanty.intellij.mod.formatter.ModWhiteSpaceFormattingStrategy"/>
+        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.mod.formatter.ModStripTrailingSpacesFilterFactory"/>
+
+        <annotator language="mod"
+                   implementationClass="ps.shanty.intellij.mod.annotator.ModSameLineCompositeValueErrorAnnotator"/>
+        <typedHandler implementation="ps.shanty.intellij.mod.formatter.ModHyphenTypedHandler"/>
+
         <langCodeStyleSettingsProvider implementation="ps.shanty.intellij.mod.ModLanguageCodeStyleSettingsProvider"/>
 
         <!-- SNT files -->
-        <fileType name="Game Cache Config Table File" implementationClass="ps.shanty.intellij.snt.SNTFileType"
+        <fileType name="Shanty Name Table File" implementationClass="ps.shanty.intellij.snt.SNTFileType"
                   fieldName="SNT" language="snt" extensions="snt"/>
+
+        <lang.parserDefinition language="snt"
+                               implementationClass="ps.shanty.intellij.snt.SNTParserDefinition"/>
+        <lang.syntaxHighlighter language="snt" implementationClass="ps.shanty.intellij.snt.formatter.SNTHighlighter"/>
+
+        <stubElementTypeHolder externalIdPrefix="sntStubElementTypeHolder"
+                               class="ps.shanty.intellij.snt.SNTElementTypes"/>
+        <stubIndex implementation="ps.shanty.intellij.snt.SNTKeyIndex"/>
+
+        <langCodeStyleSettingsProvider implementation="ps.shanty.intellij.snt.SNTLanguageCodeStyleSettingsProvider"/>
+        <lang.formatter language="snt" implementationClass="ps.shanty.intellij.snt.formatter.SNTFormattingModelBuilder"/>
+
+        <annotator language="snt" implementationClass="ps.shanty.intellij.snt.SNTAnnotator"/>
 
         <postStartupActivity implementation="ps.shanty.intellij.snt.SNTStartupActivity"/>
 
@@ -37,9 +68,6 @@
         <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/YAMLDarcula.xml"/>
 
-        <lang.formatter language="mod"
-                        implementationClass="ps.shanty.intellij.mod.formatter.ModFormattingModelBuilder"/>
-        <typedHandler implementation="ps.shanty.intellij.mod.formatter.ModHyphenTypedHandler"/>
         <lang.commenter language="mod" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
         <lang.syntaxHighlighterFactory language="mod"
                                        implementationClass="org.jetbrains.yaml.YAMLSyntaxHighlighterFactory"/>
@@ -50,9 +78,6 @@
                                       implementationClass="com.intellij.codeInsight.editorActions.SmartBackspaceDisabler"/>
         <lang.psiStructureViewFactory language="mod"
                                       implementationClass="org.jetbrains.yaml.structureView.YAMLStructureViewFactory"/>
-        <lang.whiteSpaceFormattingStrategy language="mod"
-                                           implementationClass="ps.shanty.intellij.mod.formatter.ModWhiteSpaceFormattingStrategy"/>
-        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.mod.formatter.ModStripTrailingSpacesFilterFactory"/>
         <completion.contributor order="first" language="mod" id="ModJsonSchema"
                                 implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaCompletionContributor"/>
         <lang.documentationProvider language="mod"
@@ -64,8 +89,6 @@
                                       language="mod"/>
         <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
                                     language="mod"/>
-        <annotator language="mod"
-                   implementationClass="ps.shanty.intellij.mod.annotator.ModSameLineCompositeValueErrorAnnotator"/>
 
         <localInspection language="mod" bundle="messages.YAMLBundle"
                          shortName="modUnresolvedAlias"
@@ -102,6 +125,46 @@
                          enabledByDefault="true"
                          level="WEAK WARNING"
                          implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDeprecationInspection"/>
+
+        <!-- copied from Propertie's plugin.xml for snt files -->
+        <lang.refactoringSupport language="snt"
+                                 implementationClass="com.intellij.lang.properties.refactoring.PropertiesRefactoringSupportProvider"/>
+        <lang.documentationProvider language="snt" implementationClass="com.intellij.lang.properties.PropertiesDocumentationProvider"/>
+        <lang.findUsagesProvider language="snt"
+                                 implementationClass="com.intellij.lang.properties.findUsages.PropertiesFindUsagesProvider"/>
+        <codeInsight.wordCompletionFilter language="snt"
+                                          implementationClass="com.intellij.lang.properties.PropertiesWordCompletionFilter"/>
+        <lang.psiStructureViewFactory language="snt"
+                                      implementationClass="com.intellij.lang.properties.structureView.PropertiesStructureViewBuilderFactory"/>
+        <lang.ast.factory language="snt" implementationClass="com.intellij.lang.properties.psi.impl.PropertiesASTFactory"/>
+
+        <lang.commenter language="snt" implementationClass="com.intellij.lang.properties.PropertiesCommenter"/>
+        <lang.namesValidator language="snt" implementationClass="com.intellij.lang.properties.PropertiesNamesValidator"/>
+
+        <idIndexer filetype="Shanty Name Table File" implementationClass="com.intellij.lang.properties.idCache.PropertiesIdIndexer"/>
+        <todoIndexer filetype="Shanty Name Table File" implementationClass="com.intellij.lang.properties.idCache.PropertiesTodoIndexer"/>
+
+        <spellchecker.support language="snt"
+                              id="propertiesSpellcheckingStrategy"
+                              implementationClass="com.intellij.lang.properties.spellchecker.PropertiesSpellcheckingStrategy"/>
+
+        <lang.foldingBuilder language="snt" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
+
+        <stripTrailingSpacesFilterFactory implementation="com.intellij.lang.properties.formatting.PropertiesStripTrailingSpacesFilterFactory"/>
+
+        <lang.inspectionSuppressor language="snt" implementationClass="com.intellij.lang.properties.codeInspection.PropertiesInspectionSuppressor"/>
+
+        <intentionAction>
+            <className>ps.shanty.intellij.snt.actions.CopyPropertyValueToClipboardIntention</className>
+            <bundleName>messages.PropertiesBundle</bundleName>
+            <categoryKey>intention.category.properties</categoryKey>
+        </intentionAction>
+
+        <intentionAction>
+            <className>ps.shanty.intellij.snt.actions.CopyPropertyKeyToClipboardIntention</className>
+            <bundleName>messages.PropertiesBundle</bundleName>
+            <categoryKey>intention.category.properties</categoryKey>
+        </intentionAction>
     </extensions>
 
 </idea-plugin>

@@ -6,8 +6,7 @@ import com.intellij.openapi.startup.StartupActivity
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.yaml.psi.YAMLKeyValue
+import ps.shanty.intellij.snt.psi.SNTFile
 
 class SNTStartupActivity : StartupActivity.DumbAware {
 
@@ -64,12 +63,12 @@ class SNTStartupActivity : StartupActivity.DumbAware {
             }
 
             for (file in files) {
-                val properties = PsiTreeUtil.collectElementsOfType(file, YAMLKeyValue::class.java)
+                val propertyFile = file as SNTFile
+                val properties = propertyFile.properties
                 for (property in properties) {
-                    if (property.keyText == "name") {
-                        references.putIfAbsent(property.valueText, mutableListOf())
-                        references[property.valueText]!!.add(property)
-                    }
+                    val key = property.key!!
+                    references.putIfAbsent(key, mutableListOf())
+                    references[key]!!.add(property.psiElement)
                 }
             }
         }
