@@ -10,6 +10,8 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
 
+    <resource-bundle>messages.ModBundle</resource-bundle>
+
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- Mod files -->
@@ -22,6 +24,8 @@
         <lang.parserDefinition language="mod"
                                implementationClass="ps.shanty.intellij.mod.ModParserDefinition"/>
         <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.mod.smart.ModQuoteHandler"/>
+
+        <langCodeStyleSettingsProvider implementation="ps.shanty.intellij.mod.ModLanguageCodeStyleSettingsProvider"/>
 
         <!-- SNT files -->
         <fileType name="Game Cache Config Table File" implementationClass="ps.shanty.intellij.snt.SNTFileType"
@@ -65,7 +69,7 @@
         <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
                                     language="mod"/>
         <annotator language="mod"
-                   implementationClass="org.jetbrains.yaml.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
+                   implementationClass="ps.shanty.intellij.mod.annotator.ModSameLineCompositeValueErrorAnnotator"/>
 
         <localInspection language="mod" bundle="messages.YAMLBundle"
                          shortName="modUnresolvedAlias"
@@ -132,38 +136,38 @@
         <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
                                     language="snt"/>
         <annotator language="snt"
-                   implementationClass="org.jetbrains.yaml.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
+                   implementationClass="ps.shanty.intellij.mod.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
 
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modUnresolvedAlias"
+                         shortName="sntUnresolvedAlias"
                          key="inspections.unresolved.alias.name" level="ERROR"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLUnresolvedAliasInspection"/>
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modRecursiveAlias"
+                         shortName="sntRecursiveAlias"
                          key="inspections.recursive.alias.name" level="ERROR"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLRecursiveAliasInspection"/>
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modDuplicatedKeys" level="ERROR"
+                         shortName="sntDuplicatedKeys" level="ERROR"
                          key="inspections.duplicated.keys.name"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLDuplicatedKeysInspection"/>
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modUnusedAnchor"
+                         shortName="sntUnusedAnchor"
                          key="inspections.unused.anchor.name" level="WARNING"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLUnusedAnchorInspection"/>
 
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modSchemaValidation"
+                         shortName="sntSchemaValidation"
                          key="inspections.schema.validation.name"
                          groupKey="inspections.group.name"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
         <localInspection language="snt" bundle="messages.YAMLBundle"
-                         shortName="modSchemaDeprecation"
+                         shortName="sntSchemaDeprecation"
                          key="inspections.schema.deprecation.name"
                          groupKey="inspections.group.name"
                          enabledByDefault="true"
