@@ -52,6 +52,7 @@
         <lang.parserDefinition language="snt"
                                implementationClass="ps.shanty.intellij.snt.SNTParserDefinition"/>
         <lang.syntaxHighlighter language="snt" implementationClass="ps.shanty.intellij.snt.formatter.SNTHighlighter"/>
+        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.snt.formatter.SNTStripTrailingSpacesFilterFactory"/>
 
         <stubElementTypeHolder externalIdPrefix="sntStubElementTypeHolder"
                                class="ps.shanty.intellij.snt.SNTElementTypes"/>
@@ -147,8 +148,6 @@
                               implementationClass="com.intellij.lang.properties.spellchecker.PropertiesSpellcheckingStrategy"/>
 
         <lang.foldingBuilder language="snt" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
-
-        <stripTrailingSpacesFilterFactory implementation="com.intellij.lang.properties.formatting.PropertiesStripTrailingSpacesFilterFactory"/>
 
         <lang.inspectionSuppressor language="snt" implementationClass="com.intellij.lang.properties.codeInspection.PropertiesInspectionSuppressor"/>
 
