@@ -2,11 +2,11 @@ package ps.shanty.intellij.snt
 
 import com.intellij.psi.PsiElement
 
-class ShantyNameTableEntries {
+class SNTEntries {
 
     var tableEntryForName = mapOf<String, List<PsiElement>>()
 
     companion object {
-        val INSTANCE = ShantyNameTableEntries()
+        val INSTANCE = SNTEntries()
     }
 }

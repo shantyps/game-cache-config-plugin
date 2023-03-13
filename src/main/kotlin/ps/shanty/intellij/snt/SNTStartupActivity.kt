@@ -9,7 +9,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.yaml.psi.YAMLKeyValue
 
-class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
+class SNTStartupActivity : StartupActivity.DumbAware {
 
     override fun runActivity(project: Project) {
         val references = hashMapOf<String, MutableList<PsiElement>>()
@@ -48,7 +48,7 @@ class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
         loadConfigFile(project, references, "varp")
         loadConfigFile(project, references, "varstring")
 
-        ShantyNameTableEntries.INSTANCE.tableEntryForName = references
+        SNTEntries.INSTANCE.tableEntryForName = references
     }
 
     private fun loadConfigFile(
