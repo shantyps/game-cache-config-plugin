@@ -382,7 +382,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
                 //   key: value
                 // }
                 Indent.getNormalIndent()
-            } else if (grandParentIsDocument) {
+            } else if (grandParentIsDocument || parentType === ModElementTypes.MAPPING) {
                 // ---
                 // key: value
                 SAME_AS_PARENT_INDENT

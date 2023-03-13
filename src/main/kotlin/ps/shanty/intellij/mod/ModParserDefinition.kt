@@ -45,13 +45,13 @@ class ModParserDefinition : YAMLParserDefinition() {
             return YAMLScalarListImpl(node)
         }
         if (type === ModElementTypes.SCALAR_TEXT_VALUE) {
-            return YAMLScalarTextImpl(node)
+            return ModPlainTextImpl(node)
         }
         if (type === ModElementTypes.SCALAR_PLAIN_VALUE) {
             return ModPlainTextImpl(node)
         }
         if (type === ModElementTypes.SCALAR_QUOTED_STRING) {
-            return YAMLQuotedTextImpl(node)
+            return ModPlainTextImpl(node)
         }
         if (type === ModElementTypes.ANCHOR_NODE) {
             return YAMLAnchorImpl(node)

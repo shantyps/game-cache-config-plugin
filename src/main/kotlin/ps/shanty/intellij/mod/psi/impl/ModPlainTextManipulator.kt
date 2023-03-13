@@ -12,8 +12,6 @@ import ps.shanty.intellij.mod.ModElementGenerator
 class ModPlainTextManipulator : AbstractElementManipulator<ModPlainTextImpl>() {
     override fun getRangeInElement(element: ModPlainTextImpl): TextRange {
         val ranges = element.contentRanges
-        println("ranges are")
-        println(ranges)
         return if (ranges.isEmpty()) {
             TextRange.EMPTY_RANGE
         } else TextRange.create(ranges[0].startOffset, ranges[ranges.size - 1].endOffset)
@@ -40,7 +38,6 @@ class ModPlainTextManipulator : AbstractElementManipulator<ModPlainTextImpl>() {
             CodeEditUtil.setNodeGenerated(result.node, true)
             result
         } catch (e: IllegalArgumentException) {
-            println("???")
             val newElement = element.replace(
                 ModElementGenerator.getInstance(element.project).createYamlDoubleQuotedString()
             ) as? YAMLPlainTextImpl
@@ -50,7 +47,6 @@ class ModPlainTextManipulator : AbstractElementManipulator<ModPlainTextImpl>() {
     }
 
     private fun String.removeFileExtension(): String {
-        println(this)
         return substring(0, lastIndexOf('.'))
     }
 }

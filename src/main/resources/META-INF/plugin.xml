@@ -35,6 +35,8 @@
 
         <lang.elementManipulator forClass="ps.shanty.intellij.mod.psi.impl.ModPlainTextImpl"
                                  implementationClass="ps.shanty.intellij.mod.psi.impl.ModPlainTextManipulator"/>
+        <lang.elementManipulator forClass="ps.shanty.intellij.mod.psi.impl.ModQuotedTextImpl"
+                                 implementationClass="ps.shanty.intellij.mod.psi.impl.ModPlainTextManipulator"/>
         <lang.formatter language="mod"
                         implementationClass="ps.shanty.intellij.mod.formatter.ModFormattingModelBuilder"/>
         <lang.whiteSpaceFormattingStrategy language="mod"
