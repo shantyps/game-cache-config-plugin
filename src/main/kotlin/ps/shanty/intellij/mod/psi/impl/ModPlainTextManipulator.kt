@@ -47,6 +47,7 @@ class ModPlainTextManipulator : AbstractElementManipulator<ModPlainTextImpl>() {
     }
 
     private fun String.removeFileExtension(): String {
+        if (!contains('.')) return this
         return substring(0, lastIndexOf('.'))
     }
 }
