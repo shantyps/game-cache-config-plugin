@@ -1,13 +1,11 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package org.jetbrains.yaml.psi.impl
+package ps.shanty.intellij.parser
 
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.ItemPresentationProviders
 import com.intellij.openapi.util.Iconable.IconFlags
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.pom.PsiDeclaredTarget
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiReference
@@ -19,10 +17,10 @@ import com.intellij.util.PlatformIcons
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.yaml.*
 import org.jetbrains.yaml.psi.*
-import ps.shanty.intellij.parser.GameCacheConfigKeyValue
+import org.jetbrains.yaml.psi.impl.YAMLPsiElementImpl
 import javax.swing.Icon
 
-class GameCacheConfigKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), GameCacheConfigKeyValue, PsiDeclaredTarget {
+class GameCacheConfigKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), GameCacheConfigKeyValue {
 
     override fun toString(): String {
         return "Game Cache Config key value"
@@ -189,11 +187,6 @@ class GameCacheConfigKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), Gam
 
     override fun getNavigationElement(): PsiElement {
         return this
-    }
-
-    override fun getNameIdentifierRange(): TextRange? {
-        val key = key
-        return key?.textRangeInParent
     }
 
     companion object {
