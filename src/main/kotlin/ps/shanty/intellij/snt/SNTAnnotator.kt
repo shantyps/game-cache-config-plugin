@@ -18,11 +18,18 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import ps.shanty.intellij.snt.formatter.SNTHighlighter
 import ps.shanty.intellij.snt.psi.SNTEntry
+import ps.shanty.intellij.snt.psi.SNTFile
 import ps.shanty.intellij.snt.psi.impl.SNTEntryImpl
 
 class SNTAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element !is SNTEntry) return
+        if (element !is SNTFile) return
+        for (property in element.properties) {
+            annotateProperty(property, holder)
+        }
+    }
+
+    private fun annotateProperty(element: ISNTEntry, holder: AnnotationHolder) {
         val property = element
         val propertiesFile = property.sntFile
         val key = property.unescapedKey ?: return
