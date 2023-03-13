@@ -370,9 +370,11 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
 
     private fun parseScalarKeyValue(indent: Int): IElementType {
         assert(tokenType === YAMLTokenTypes.SCALAR_KEY) { "Expected scalar key" }
+        val keyMarker = mark()
         eolSeen = false
         val indentAddition = shorthandIndentAddition
         advanceLexer()
+        keyMarker.done(GameCacheConfigElementTypes.SCALAR_TEXT_VALUE)
         return parseSimpleScalarKeyValueFromColon(indent, indentAddition)
     }
 
