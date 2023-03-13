@@ -17,7 +17,6 @@ private class ModWhiteSpaceFormattingStrategy : AbstractWhiteSpaceFormattingStra
         codeStyleSettings: CodeStyleSettings?,
         nodeAfter: ASTNode?
     ): CharSequence {
-        println("nodeAfter?.elementType = ${nodeAfter?.elementType}")
         if (YAMLTokenTypes.SEQUENCE_MARKER == nodeAfter?.elementType) return whiteSpaceText
         val lineBreaksPositions = whiteSpaceText.indices.filterTo(SmartList()) { whiteSpaceText[it] == '\n' }
             .also { it.add(whiteSpaceText.length) }
