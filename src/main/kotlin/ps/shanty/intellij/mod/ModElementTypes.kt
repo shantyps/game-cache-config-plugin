@@ -1,31 +1,30 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod
 
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.jetbrains.yaml.YAMLLanguage
 import org.jetbrains.yaml.YAMLTokenTypes
 
-object GameCacheConfigElementTypes {
-    var FILE = IFileElementType(GameCacheConfigLanguage.INSTANCE)
+object ModElementTypes {
+    var FILE = IFileElementType(ModLanguage.INSTANCE)
 
-    var DOCUMENT = GameCacheConfigElementType("Game Cache Document ---")
+    var DOCUMENT = ModElementType("Mod Document ---")
 
-    var KEY_VALUE_PAIR = GameCacheConfigElementType("Game Cache Key value pair")
+    var KEY_VALUE_PAIR = ModElementType("Mod Key value pair")
 
     //GameCacheConfigElementType VALUE = new GameCacheConfigElementType("Value");
-    var HASH = GameCacheConfigElementType("Game Cache Hash")
-    var ARRAY = GameCacheConfigElementType("Game Cache Array")
-    var SEQUENCE_ITEM = GameCacheConfigElementType("Game Cache Sequence item")
-    var COMPOUND_VALUE = GameCacheConfigElementType("Game Cache Compound value")
-    var MAPPING = GameCacheConfigElementType("Game Cache Mapping")
-    var SEQUENCE = GameCacheConfigElementType("Game Cache Sequence")
-    var SCALAR_LIST_VALUE = GameCacheConfigElementType("Game Cache Scalar list value")
-    var SCALAR_TEXT_VALUE = GameCacheConfigElementType("Game Cache Scalar text value")
-    var SCALAR_PLAIN_VALUE = GameCacheConfigElementType("Game Cache Scalar plain style")
-    var SCALAR_QUOTED_STRING = GameCacheConfigElementType("Game Cache Scalar quoted string")
-    var ANCHOR_NODE = GameCacheConfigElementType("Game Cache Anchor node")
-    var ALIAS_NODE = GameCacheConfigElementType("Game Cache Alias node")
+    var HASH = ModElementType("Mod Hash")
+    var ARRAY = ModElementType("Mod Array")
+    var SEQUENCE_ITEM = ModElementType("Mod Sequence item")
+    var COMPOUND_VALUE = ModElementType("Mod Compound value")
+    var MAPPING = ModElementType("Mod Mapping")
+    var SEQUENCE = ModElementType("Mod Sequence")
+    var SCALAR_LIST_VALUE = ModElementType("Mod Scalar list value")
+    var SCALAR_TEXT_VALUE = ModElementType("Mod Scalar text value")
+    var SCALAR_PLAIN_VALUE = ModElementType("Mod Scalar plain style")
+    var SCALAR_QUOTED_STRING = ModElementType("Mod Scalar quoted string")
+    var ANCHOR_NODE = ModElementType("Mod Anchor node")
+    var ALIAS_NODE = ModElementType("Mod Alias node")
 
     var BLOCK_SCALAR_ITEMS = TokenSet.create(
         YAMLTokenTypes.SCALAR_LIST,
@@ -88,7 +87,7 @@ object GameCacheConfigElementTypes {
     )
 
     var TOP_LEVEL = TokenSet.create(
-        GameCacheConfigElementTypes.FILE,
+        FILE,
         DOCUMENT
     )
 

@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.arham4.gamecacheconfigplugin</id>
+    <id>ps.shanty.intellij</id>
     <name>Shanty Game Cache Config Plugin</name>
     <description><![CDATA[
         This plugin resolves Shanty game cache config YAML files to have references within them, allowing for CTRL + Click navigation to defined YAML files.
@@ -12,83 +12,83 @@
 
     <extensions defaultExtensionNs="com.intellij">
 
-        <fileType name="Game Cache Config File" implementationClass="ps.shanty.intellij.parser.GameCacheConfigFileType"
-                  fieldName="GAME_CACHE_CONFIG" language="gameCacheConfig" extensions="mod;enum;struct;obj;npc"/>
+        <fileType name="Game Cache Config File" implementationClass="ps.shanty.intellij.mod.ModFileType"
+                  fieldName="MOD" language="mod" extensions="mod;enum;struct;obj;npc"/>
 
-        <psi.referenceContributor language="gameCacheConfig"
-                                  implementation="ps.shanty.intellij.psi.GameCacheConfigReferenceContributor"/>
-        <postStartupActivity implementation="ps.shanty.intellij.startup.ShantyNameTablesStartupActivity"/>
+        <psi.referenceContributor language="mod"
+                                  implementation="ps.shanty.intellij.mod.ModReferenceContributor"/>
+        <postStartupActivity implementation="ps.shanty.intellij.snt.ShantyNameTablesStartupActivity"/>
 
-        <lang.parserDefinition language="gameCacheConfig"
-                               implementationClass="ps.shanty.intellij.parser.GameCacheConfigParserDefinition"/>
+        <lang.parserDefinition language="mod"
+                               implementationClass="ps.shanty.intellij.mod.ModParserDefinition"/>
         <lang.elementManipulator forClass="ps.shanty.intellij.parser.GameCacheKeyValueImpl"
                                  implementationClass="org.jetbrains.yaml.psi.impl.YAMLKeyValueKeyManipulator"/>
-        <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.parser.GameCacheConfigQuoteHandler"/>
+        <quoteHandler fileType="Game Cache Config File" className="ps.shanty.intellij.mod.smart.ModQuoteHandler"/>
 
         <!-- copied from YAML's plugin.xml -->
         <additionalTextAttributes scheme="Default" file="colorSchemes/YAMLDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/YAMLDarcula.xml"/>
 
-        <lang.formatter language="gameCacheConfig"
-                        implementationClass="ps.shanty.intellij.formatter.FormattingModelBuilder"/>
-        <typedHandler implementation="ps.shanty.intellij.formatter.HyphenTypedHandler"/>
-        <lang.commenter language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
-        <lang.syntaxHighlighterFactory language="gameCacheConfig"
+        <lang.formatter language="mod"
+                        implementationClass="ps.shanty.intellij.mod.formatter.ModFormattingModelBuilder"/>
+        <typedHandler implementation="ps.shanty.intellij.mod.formatter.ModHyphenTypedHandler"/>
+        <lang.commenter language="mod" implementationClass="org.jetbrains.yaml.YAMLCommenter"/>
+        <lang.syntaxHighlighterFactory language="mod"
                                        implementationClass="org.jetbrains.yaml.YAMLSyntaxHighlighterFactory"/>
-        <lang.braceMatcher language="gameCacheConfig" implementationClass="org.jetbrains.yaml.YAMLPairedBraceMatcher"/>
-        <lang.foldingBuilder language="gameCacheConfig" id="YAMLFoldingBuilder"
+        <lang.braceMatcher language="mod" implementationClass="org.jetbrains.yaml.YAMLPairedBraceMatcher"/>
+        <lang.foldingBuilder language="mod" id="YAMLFoldingBuilder"
                              implementationClass="org.jetbrains.yaml.folding.YAMLFoldingBuilder"/>
-        <editor.backspaceModeOverride language="gameCacheConfig"
+        <editor.backspaceModeOverride language="mod"
                                       implementationClass="com.intellij.codeInsight.editorActions.SmartBackspaceDisabler"/>
-        <lang.psiStructureViewFactory language="gameCacheConfig"
+        <lang.psiStructureViewFactory language="mod"
                                       implementationClass="org.jetbrains.yaml.structureView.YAMLStructureViewFactory"/>
-        <lang.whiteSpaceFormattingStrategy language="gameCacheConfig"
-                                           implementationClass="ps.shanty.intellij.formatter.GameCacheConfigWhiteSpaceFormattingStrategy"/>
-        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.formatter.GameCacheConfigStripTrailingSpacesFilterFactory"/>
-        <completion.contributor order="first" language="gameCacheConfig" id="YamlJsonSchema"
+        <lang.whiteSpaceFormattingStrategy language="mod"
+                                           implementationClass="ps.shanty.intellij.mod.formatter.ModWhiteSpaceFormattingStrategy"/>
+        <stripTrailingSpacesFilterFactory implementation="ps.shanty.intellij.mod.formatter.ModStripTrailingSpacesFilterFactory"/>
+        <completion.contributor order="first" language="mod" id="YamlJsonSchema"
                                 implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaCompletionContributor"/>
-        <lang.documentationProvider language="gameCacheConfig"
+        <lang.documentationProvider language="mod"
                                     implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDocumentationProvider"
                                     id="YamlJsonSchemaDocumentationProvider"/>
-        <lang.refactoringSupport language="gameCacheConfig"
+        <lang.refactoringSupport language="mod"
                                  implementationClass="org.jetbrains.yaml.resolve.YAMLRefactoringSupportProvider"/>
         <languageInjectionContributor implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaLanguageInjector"
-                                      language="gameCacheConfig"/>
+                                      language="mod"/>
         <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
-                                    language="gameCacheConfig"/>
-        <annotator language="gameCacheConfig"
+                                    language="mod"/>
+        <annotator language="mod"
                    implementationClass="org.jetbrains.yaml.annotator.YAMLSameLineCompositeValueErrorAnnotator"/>
 
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigUnresolvedAlias"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modUnresolvedAlias"
                          key="inspections.unresolved.alias.name" level="ERROR"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLUnresolvedAliasInspection"/>
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigRecursiveAlias"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modRecursiveAlias"
                          key="inspections.recursive.alias.name" level="ERROR"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLRecursiveAliasInspection"/>
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigDuplicatedKeys" level="ERROR"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modDuplicatedKeys" level="ERROR"
                          key="inspections.duplicated.keys.name"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLDuplicatedKeysInspection"/>
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigUnusedAnchor"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modUnusedAnchor"
                          key="inspections.unused.anchor.name" level="WARNING"
                          groupKey="inspections.group.name" enabledByDefault="true"
                          implementationClass="org.jetbrains.yaml.inspections.YAMLUnusedAnchorInspection"/>
 
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigSchemaValidation"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modSchemaValidation"
                          key="inspections.schema.validation.name"
                          groupKey="inspections.group.name"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
-        <localInspection language="gameCacheConfig" bundle="messages.YAMLBundle"
-                         shortName="GameCacheConfigSchemaDeprecation"
+        <localInspection language="mod" bundle="messages.YAMLBundle"
+                         shortName="modSchemaDeprecation"
                          key="inspections.schema.deprecation.name"
                          groupKey="inspections.group.name"
                          enabledByDefault="true"

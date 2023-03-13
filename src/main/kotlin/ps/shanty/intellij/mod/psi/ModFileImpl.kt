@@ -1,17 +1,19 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod.psi
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.tree.TokenSet
-import org.jetbrains.yaml.YAMLElementTypes
-import org.jetbrains.yaml.YAMLLanguage
 import org.jetbrains.yaml.psi.YAMLDocument
+import ps.shanty.intellij.mod.ModElementTypes
+import ps.shanty.intellij.mod.ModLanguage
+import ps.shanty.intellij.mod.ModFileType
 
-class GameCacheConfigFileImpl(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, GameCacheConfigLanguage.INSTANCE), GameCacheConfigFile {
+class ModFileImpl(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ModLanguage.INSTANCE),
+    ModFile {
 
     override fun getFileType(): FileType {
-        return GameCacheConfigFileType.GAME_CACHE_CONFIG
+        return ModFileType.MOD
     }
 
     override fun toString(): String {
@@ -20,7 +22,7 @@ class GameCacheConfigFileImpl(viewProvider: FileViewProvider) : PsiFileBase(view
 
     override fun getDocuments(): List<YAMLDocument> {
         val result = ArrayList<YAMLDocument>()
-        for (node in node.getChildren(TokenSet.create(GameCacheConfigElementTypes.DOCUMENT))) {
+        for (node in node.getChildren(TokenSet.create(ModElementTypes.DOCUMENT))) {
             result.add(node.psi as YAMLDocument)
         }
         return result

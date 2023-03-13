@@ -1,4 +1,4 @@
-package ps.shanty.intellij.startup
+package ps.shanty.intellij.snt
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
@@ -7,9 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.yaml.psi.YAMLKeyValue
-import ps.shanty.intellij.data.ShantyNameTableEntries
-import ps.shanty.intellij.parser.GameCacheConfigKeyValue
+import ps.shanty.intellij.mod.psi.ModKeyValue
 
 class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
 
@@ -66,7 +64,7 @@ class ShantyNameTablesStartupActivity : StartupActivity.DumbAware {
             }
 
             for (file in files) {
-                val properties = PsiTreeUtil.collectElementsOfType(file, GameCacheConfigKeyValue::class.java)
+                val properties = PsiTreeUtil.collectElementsOfType(file, ModKeyValue::class.java)
                 for (property in properties) {
                     if (property.keyText == "name") {
                         references.putIfAbsent(property.valueText, mutableListOf())

@@ -1,4 +1,4 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod.parser
 
 import com.intellij.lang.*
 import com.intellij.psi.tree.IElementType
@@ -6,8 +6,9 @@ import com.intellij.psi.tree.TokenSet
 import com.intellij.util.containers.Stack
 import org.jetbrains.yaml.YAMLBundle
 import org.jetbrains.yaml.YAMLTokenTypes
+import ps.shanty.intellij.mod.ModElementTypes
 
-class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
+class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
     private var myBuilder: PsiBuilder? = null
     private var eolSeen = false
     private var myIndent = 0
@@ -50,7 +51,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         }
         parseBlockNode(myIndent, false)
         dropEolMarker()
-        marker.done(GameCacheConfigElementTypes.DOCUMENT)
+        marker.done(ModElementTypes.DOCUMENT)
     }
 
     private fun parseBlockNode(indent: Int, insideSequence: Boolean) {
@@ -84,12 +85,12 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             numberOfItems++
             val parsedTokenType = parseSingleStatement(if (eolSeen) myIndent else indent, indent)
             if (nodeType == null) {
-                if (parsedTokenType === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
-                    nodeType = GameCacheConfigElementTypes.SEQUENCE
-                } else if (parsedTokenType === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
-                    nodeType = GameCacheConfigElementTypes.MAPPING
+                if (parsedTokenType === ModElementTypes.SEQUENCE_ITEM) {
+                    nodeType = ModElementTypes.SEQUENCE
+                } else if (parsedTokenType === ModElementTypes.KEY_VALUE_PAIR) {
+                    nodeType = ModElementTypes.MAPPING
                 } else if (numberOfItems > 1) {
-                    nodeType = GameCacheConfigElementTypes.COMPOUND_VALUE
+                    nodeType = ModElementTypes.COMPOUND_VALUE
                 }
             }
             endOfNodeMarker?.drop()
@@ -121,7 +122,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             // top-level block with zero indent
             while (isJunk) {
                 if (tokenType === YAMLTokenTypes.EOL) {
-                    if (!GameCacheConfigElementTypes.BLANK_ELEMENTS.contains(myBuilder!!.lookAhead(1))) {
+                    if (!ModElementTypes.BLANK_ELEMENTS.contains(myBuilder!!.lookAhead(1))) {
                         // do not include last \n into block
                         break
                     }
@@ -189,14 +190,14 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             nodeType = parseExplicitKeyValue(indent)
         } else if (tokenType === YAMLTokenTypes.SCALAR_KEY) {
             nodeType = parseScalarKeyValue(indent)
-        } else if (GameCacheConfigElementTypes.SCALAR_VALUES.contains(this.tokenType)) {
+        } else if (ModElementTypes.SCALAR_VALUES.contains(this.tokenType)) {
             nodeType = parseScalarValue(minIndent)
         } else if (tokenType === YAMLTokenTypes.STAR) {
             val aliasMarker = mark()
             advanceLexer() // symbol *
             if (this.tokenType === YAMLTokenTypes.ALIAS) {
                 advanceLexer() // alias name
-                aliasMarker.done(GameCacheConfigElementTypes.ALIAS_NODE)
+                aliasMarker.done(ModElementTypes.ALIAS_NODE)
                 if (this.tokenType === YAMLTokenTypes.COLON) {
                     // Alias is used as key name
                     eolSeen = false
@@ -205,7 +206,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
                 } else {
                     // simple ALIAS_NODE was constructed and marker should be dropped
                     marker.drop()
-                    return GameCacheConfigElementTypes.ALIAS_NODE
+                    return ModElementTypes.ALIAS_NODE
                 }
             } else {
                 // Should be impossible now (because of lexer rules)
@@ -252,7 +253,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
                 advanceLexer() // symbol &
                 if (tokenType === YAMLTokenTypes.ANCHOR) {
                     advanceLexer() // anchor name
-                    anchorMarker.done(GameCacheConfigElementTypes.ANCHOR_NODE)
+                    anchorMarker.done(ModElementTypes.ANCHOR_NODE)
                 } else {
                     // Should be impossible now (because of lexer rules)
                     anchorMarker.drop()
@@ -273,7 +274,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
 
     private fun parseScalarValue(indent: Int): IElementType? {
         val tokenType = tokenType
-        assert(GameCacheConfigElementTypes.SCALAR_VALUES.contains(tokenType)) { "Scalar value expected!" }
+        assert(ModElementTypes.SCALAR_VALUES.contains(tokenType)) { "Scalar value expected!" }
         return if (tokenType === YAMLTokenTypes.SCALAR_LIST || tokenType === YAMLTokenTypes.SCALAR_TEXT) {
             parseMultiLineScalar(tokenType)
         } else if (tokenType === YAMLTokenTypes.TEXT) {
@@ -288,7 +289,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
 
     private fun parseQuotedString(): IElementType {
         advanceLexer()
-        return GameCacheConfigElementTypes.SCALAR_QUOTED_STRING
+        return ModElementTypes.SCALAR_QUOTED_STRING
     }
 
     private fun parseMultiLineScalar(tokenType: IElementType?): IElementType {
@@ -302,7 +303,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             advanceLexer()
             err.error(YAMLBundle.message("YAMLParser.invalid.header.symbols"))
         }
-        if (GameCacheConfigElementTypes.EOL_ELEMENTS.contains(this.tokenType)) {
+        if (ModElementTypes.EOL_ELEMENTS.contains(this.tokenType)) {
             advanceLexer()
         }
         var endOfValue: PsiBuilder.Marker? = myBuilder!!.mark()
@@ -322,7 +323,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             type = this.tokenType
         }
         endOfValue?.rollbackTo()
-        return if (tokenType === YAMLTokenTypes.SCALAR_LIST) GameCacheConfigElementTypes.SCALAR_LIST_VALUE else GameCacheConfigElementTypes.SCALAR_TEXT_VALUE
+        return if (tokenType === YAMLTokenTypes.SCALAR_LIST) ModElementTypes.SCALAR_LIST_VALUE else ModElementTypes.SCALAR_TEXT_VALUE
     }
 
     private fun parseMultiLinePlainScalar(indent: Int): IElementType {
@@ -342,7 +343,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         rollBackToEol()
         assert(lastTextEnd != null)
         lastTextEnd!!.rollbackTo()
-        return GameCacheConfigElementTypes.SCALAR_PLAIN_VALUE
+        return ModElementTypes.SCALAR_PLAIN_VALUE
     }
 
     private fun parseExplicitKeyValue(indent: Int): IElementType {
@@ -365,7 +366,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
                 parseBlockNode(indent + indentAddition, false)
             }
         }
-        return GameCacheConfigElementTypes.KEY_VALUE_PAIR
+        return ModElementTypes.KEY_VALUE_PAIR
     }
 
     private fun parseScalarKeyValue(indent: Int): IElementType {
@@ -374,7 +375,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         eolSeen = false
         val indentAddition = shorthandIndentAddition
         advanceLexer()
-        keyMarker.done(GameCacheConfigElementTypes.SCALAR_TEXT_VALUE)
+        keyMarker.done(ModElementTypes.SCALAR_TEXT_VALUE)
         return parseSimpleScalarKeyValueFromColon(indent, indentAddition)
     }
 
@@ -391,7 +392,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             rollbackMarker.rollbackTo()
             parseBlockNode(indent + indentAddition, false)
         }
-        return GameCacheConfigElementTypes.KEY_VALUE_PAIR
+        return ModElementTypes.KEY_VALUE_PAIR
     }
 
     private fun parseSequenceItem(indent: Int): IElementType {
@@ -401,7 +402,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         eolSeen = false
         parseBlockNode(indent + indentAddition, true)
         rollBackToEol()
-        return GameCacheConfigElementTypes.SEQUENCE_ITEM
+        return ModElementTypes.SEQUENCE_ITEM
     }
 
     private fun parseHash(): IElementType {
@@ -417,7 +418,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         }
         myStopTokensStack.pop()
         dropEolMarker()
-        return GameCacheConfigElementTypes.HASH
+        return ModElementTypes.HASH
     }
 
     private fun parseArray(): IElementType {
@@ -436,7 +437,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             val marker = mark()
             val parsedElement = parseSingleStatement(0, 0)
             if (parsedElement != null) {
-                marker.done(GameCacheConfigElementTypes.SEQUENCE_ITEM)
+                marker.done(ModElementTypes.SEQUENCE_ITEM)
             } else {
                 marker.error(YAMLBundle.message("parsing.error.sequence.item.expected"))
             }
@@ -446,7 +447,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         }
         myStopTokensStack.pop()
         dropEolMarker()
-        return GameCacheConfigElementTypes.ARRAY
+        return ModElementTypes.ARRAY
     }
 
     private fun eof(): Boolean {
@@ -481,7 +482,7 @@ class GameCacheConfigParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             return
         }
         val type = myBuilder!!.tokenType
-        val eolElement = GameCacheConfigElementTypes.EOL_ELEMENTS.contains(type)
+        val eolElement = ModElementTypes.EOL_ELEMENTS.contains(type)
         eolSeen = eolSeen || eolElement
         if (eolElement) {
             // Drop and create new eolMarker

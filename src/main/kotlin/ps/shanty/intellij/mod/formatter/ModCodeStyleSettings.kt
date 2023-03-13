@@ -1,12 +1,12 @@
 // Copyright 2000-2018 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings
-import ps.shanty.intellij.parser.GameCacheConfigLanguage
+import ps.shanty.intellij.mod.ModLanguage
 
-class CustomCodeStyleSettings(container: CodeStyleSettings?) :
-    CustomCodeStyleSettings(GameCacheConfigLanguage.INSTANCE.id, container) {
+class ModCodeStyleSettings(container: CodeStyleSettings?) :
+    CustomCodeStyleSettings(ModLanguage.INSTANCE.id, container) {
     var ALIGN_VALUES_PROPERTIES = DO_NOT_ALIGN
     var INDENT_SEQUENCE_VALUE = true
     var SEQUENCE_ON_NEW_LINE = false

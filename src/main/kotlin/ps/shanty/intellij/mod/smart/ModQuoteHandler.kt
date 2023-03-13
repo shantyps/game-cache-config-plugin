@@ -1,17 +1,17 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod.smart
 
 import com.intellij.codeInsight.editorActions.QuoteHandler
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.highlighter.HighlighterIterator
-import org.jetbrains.yaml.YAMLElementTypes
+import ps.shanty.intellij.mod.ModElementTypes
 
-class GameCacheConfigQuoteHandler : QuoteHandler {
+class ModQuoteHandler : QuoteHandler {
 
     private fun isQuote(it: Char?) = it == '"' || it == '\''
 
     private fun isOneQuote(iterator: HighlighterIterator): Boolean {
         with(iterator) {
-            if (!GameCacheConfigElementTypes.TEXT_SCALAR_ITEMS.contains(tokenType)) return false
+            if (!ModElementTypes.TEXT_SCALAR_ITEMS.contains(tokenType)) return false
             return isQuote(document.charsSequence[start]) && !isQuote(document.charsSequence.getOrNull(start + 1))
         }
     }

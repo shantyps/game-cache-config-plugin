@@ -1,20 +1,20 @@
-package ps.shanty.intellij.psi
+package ps.shanty.intellij.mod.resolve
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import ps.shanty.intellij.data.ShantyNameTableEntries
-import ps.shanty.intellij.parser.GameCacheConfigQuoteHandler
+import ps.shanty.intellij.mod.smart.ModQuoteHandler
+import ps.shanty.intellij.snt.ShantyNameTableEntries
 
 
-internal class GameCacheConfigReference(
+internal class ModReference(
     element: PsiElement,
     textRange: TextRange,
 ) : PsiReferenceBase<PsiElement>(element, textRange), PsiPolyVariantReference {
 
-    private val key = GameCacheConfigQuoteHandler.removeQuotes(element.text.substring(textRange.startOffset, textRange.endOffset))
+    private val key = ModQuoteHandler.removeQuotes(element.text.substring(textRange.startOffset, textRange.endOffset))
 
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)

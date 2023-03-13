@@ -1,4 +1,4 @@
-package ps.shanty.intellij.data
+package ps.shanty.intellij.snt
 
 import com.intellij.psi.PsiElement
 

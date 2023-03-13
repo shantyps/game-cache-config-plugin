@@ -1,4 +1,4 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.PsiParser
@@ -10,69 +10,72 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.jetbrains.yaml.YAMLParserDefinition
 import org.jetbrains.yaml.psi.impl.*
+import ps.shanty.intellij.mod.parser.ModParser
+import ps.shanty.intellij.mod.psi.ModFileImpl
+import ps.shanty.intellij.mod.psi.impl.ModKeyValueImpl
 
-class GameCacheConfigParserDefinition : YAMLParserDefinition() {
+class ModParserDefinition : YAMLParserDefinition() {
 
     override fun createElement(node: ASTNode?): PsiElement {
         val type = node!!.elementType
-        if (type === GameCacheConfigElementTypes.DOCUMENT) {
+        if (type === ModElementTypes.DOCUMENT) {
             return YAMLDocumentImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
-            return GameCacheConfigKeyValueImpl(node)
+        if (type === ModElementTypes.KEY_VALUE_PAIR) {
+            return ModKeyValueImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.COMPOUND_VALUE) {
+        if (type === ModElementTypes.COMPOUND_VALUE) {
             return YAMLCompoundValueImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SEQUENCE) {
+        if (type === ModElementTypes.SEQUENCE) {
             return YAMLBlockSequenceImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.MAPPING) {
+        if (type === ModElementTypes.MAPPING) {
             return YAMLBlockMappingImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+        if (type === ModElementTypes.SEQUENCE_ITEM) {
             return YAMLSequenceItemImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.HASH) {
+        if (type === ModElementTypes.HASH) {
             return YAMLHashImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.ARRAY) {
+        if (type === ModElementTypes.ARRAY) {
             return YAMLArrayImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SCALAR_LIST_VALUE) {
+        if (type === ModElementTypes.SCALAR_LIST_VALUE) {
             return YAMLScalarListImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SCALAR_TEXT_VALUE) {
+        if (type === ModElementTypes.SCALAR_TEXT_VALUE) {
             return YAMLScalarTextImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SCALAR_PLAIN_VALUE) {
+        if (type === ModElementTypes.SCALAR_PLAIN_VALUE) {
             return YAMLPlainTextImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.SCALAR_QUOTED_STRING) {
+        if (type === ModElementTypes.SCALAR_QUOTED_STRING) {
             return YAMLQuotedTextImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.ANCHOR_NODE) {
+        if (type === ModElementTypes.ANCHOR_NODE) {
             return YAMLAnchorImpl(node)
         }
-        if (type === GameCacheConfigElementTypes.ALIAS_NODE) {
+        if (type === ModElementTypes.ALIAS_NODE) {
             return YAMLAliasImpl(node)
         }
         return YAMLPsiElementImpl(node)
     }
 
     override fun createParser(project: Project?): PsiParser {
-        return GameCacheConfigParser()
+        return ModParser()
     }
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile {
-        return GameCacheConfigFileImpl(viewProvider)
+        return ModFileImpl(viewProvider)
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return GameCacheConfigElementTypes.TEXT_SCALAR_ITEMS
+        return ModElementTypes.TEXT_SCALAR_ITEMS
     }
 
     override fun getFileNodeType(): IFileElementType {
-        return GameCacheConfigElementTypes.FILE
+        return ModElementTypes.FILE
     }
 }

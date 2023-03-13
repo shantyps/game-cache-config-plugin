@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
@@ -6,7 +6,7 @@ import com.intellij.psi.formatter.AbstractWhiteSpaceFormattingStrategy
 import com.intellij.util.SmartList
 import org.jetbrains.yaml.YAMLTokenTypes
 
-private class GameCacheConfigWhiteSpaceFormattingStrategy : AbstractWhiteSpaceFormattingStrategy() {
+private class ModWhiteSpaceFormattingStrategy : AbstractWhiteSpaceFormattingStrategy() {
     override fun check(text: CharSequence, start: Int, end: Int): Int = start
 
     override fun adjustWhiteSpaceIfNecessary(

@@ -1,12 +1,13 @@
-package ps.shanty.intellij.psi
+package ps.shanty.intellij.mod
 
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
+import ps.shanty.intellij.mod.resolve.ModReference
 
 
-internal class GameCacheConfigReferenceContributor : PsiReferenceContributor() {
+internal class ModReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
         registrar.registerReferenceProvider(PlatformPatterns.psiElement(), GameCacheConfigReferenceProvider())
@@ -21,7 +22,7 @@ internal class GameCacheConfigReferenceContributor : PsiReferenceContributor() {
             if (words.size != 1) {
                 return PsiReference.EMPTY_ARRAY
             }
-            return arrayOf(GameCacheConfigReference(element, TextRange.allOf(words[0])))
+            return arrayOf(ModReference(element, TextRange.allOf(words[0])))
         }
     }
 }

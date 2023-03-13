@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.openapi.application.ApplicationManager
@@ -12,10 +12,10 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.util.PsiUtilCore
 import org.jetbrains.yaml.YAMLTokenTypes
 import org.jetbrains.yaml.psi.YAMLSequence
-import ps.shanty.intellij.parser.GameCacheConfigElementTypes
-import ps.shanty.intellij.parser.GameCacheConfigFile
+import ps.shanty.intellij.mod.ModElementTypes
+import ps.shanty.intellij.mod.psi.ModFile
 
-class HyphenTypedHandler : TypedHandlerDelegate() {
+class ModHyphenTypedHandler : TypedHandlerDelegate() {
     override fun charTyped(c: Char, project: Project, editor: Editor, file: PsiFile): Result {
         autoIndentHyphen(c, project, editor, file)
         return Result.CONTINUE
@@ -28,7 +28,7 @@ class HyphenTypedHandler : TypedHandlerDelegate() {
             editor: Editor,
             file: PsiFile
         ) {
-            if (!(c == ' ' && file is GameCacheConfigFile)) {
+            if (!(c == ' ' && file is ModFile)) {
                 return
             }
             if (!file.isValid()) {
@@ -52,12 +52,12 @@ class HyphenTypedHandler : TypedHandlerDelegate() {
                 return
             }
             val item = element!!.parent
-            if (PsiUtilCore.getElementType(item) !== GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+            if (PsiUtilCore.getElementType(item) !== ModElementTypes.SEQUENCE_ITEM) {
                 // Should not be possible now
                 return
             }
             val sequence = item.parent
-            if (PsiUtilCore.getElementType(sequence) !== GameCacheConfigElementTypes.SEQUENCE) {
+            if (PsiUtilCore.getElementType(sequence) !== ModElementTypes.SEQUENCE) {
                 // It could be some composite component (with syntax error)
                 return
             }

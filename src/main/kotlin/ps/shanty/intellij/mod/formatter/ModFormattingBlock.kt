@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.formatting.Block
 import com.intellij.formatting.Indent
@@ -8,9 +8,9 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.formatter.common.AbstractBlock
 import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.SmartList
-import ps.shanty.intellij.parser.GameCacheConfigElementTypes
+import ps.shanty.intellij.mod.ModElementTypes
 
-internal class FormattingBlock(private val myContext: FormattingContext, node: ASTNode) :
+internal class ModFormattingBlock(private val myContext: ModFormattingContext, node: ASTNode) :
     AbstractBlock(node, null, myContext.computeAlignment(node)) {
     private val myIndent: Indent?
     private val myNewChildIndent: Indent?
@@ -52,16 +52,16 @@ internal class FormattingBlock(private val myContext: FormattingContext, node: A
         return buildSubBlocks(myContext, myNode)
     }
 
-    private fun buildSubBlocks(context: FormattingContext, node: ASTNode): List<Block> {
+    private fun buildSubBlocks(context: ModFormattingContext, node: ASTNode): List<Block> {
         val res: MutableList<Block> = SmartList()
         var subNode = node.firstChildNode
         while (subNode != null) {
             val subNodeType = PsiUtilCore.getElementType(subNode)
-            if (GameCacheConfigElementTypes.SPACE_ELEMENTS.contains(subNodeType)) {
+            if (ModElementTypes.SPACE_ELEMENTS.contains(subNodeType)) {
                 // just skip them (comment processed above)
-            } else if (GameCacheConfigElementTypes.SCALAR_QUOTED_STRING === subNodeType) {
+            } else if (ModElementTypes.SCALAR_QUOTED_STRING === subNodeType) {
                 res.addAll(buildSubBlocks(context, subNode))
-            } else if (GameCacheConfigElementTypes.CONTAINERS.contains(subNodeType)) {
+            } else if (ModElementTypes.CONTAINERS.contains(subNodeType)) {
                 res.addAll(
                     substituteInjectedBlocks(
                         context.mySettings,
@@ -70,7 +70,7 @@ internal class FormattingBlock(private val myContext: FormattingContext, node: A
                     )
                 )
             } else {
-                res.add(FormattingModelBuilder.createBlock(context, subNode))
+                res.add(ModFormattingModelBuilder.createBlock(context, subNode))
             }
             subNode = subNode.treeNext
         }

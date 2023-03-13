@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.formatting.*
 import com.intellij.injected.editor.DocumentWindow
@@ -16,8 +16,8 @@ import com.intellij.util.SmartList
 import com.intellij.util.castSafelyTo
 import com.intellij.util.text.TextRangeUtil
 import com.intellij.util.text.escLBr
-import ps.shanty.intellij.parser.GameCacheConfigFileType
-import ps.shanty.intellij.parser.GameCacheConfigLanguage
+import ps.shanty.intellij.mod.ModFileType
+import ps.shanty.intellij.mod.ModLanguage
 
 
 internal fun substituteInjectedBlocks(settings: CodeStyleSettings,
@@ -27,8 +27,8 @@ internal fun substituteInjectedBlocks(settings: CodeStyleSettings,
                                       alignment: Alignment?): List<Block> {
     val injectedBlocks = SmartList<Block>().apply {
         val outerBLocks = rawSubBlocks.filter { (it as? ASTBlock)?.node is OuterLanguageElement }
-        val fixedIndent = IndentImpl(Indent.Type.SPACES, false, settings.getIndentSize(GameCacheConfigFileType.GAME_CACHE_CONFIG), false, false)
-        GameCacheConfigInjectedLanguageBlockBuilder(settings, outerBLocks).addInjectedBlocks(this, injectionHost, wrap, alignment, fixedIndent)
+        val fixedIndent = IndentImpl(Indent.Type.SPACES, false, settings.getIndentSize(ModFileType.MOD), false, false)
+        ModInjectedLanguageBlockBuilder(settings, outerBLocks).addInjectedBlocks(this, injectionHost, wrap, alignment, fixedIndent)
     }
     if (injectedBlocks.isEmpty()) return rawSubBlocks
 
@@ -39,7 +39,7 @@ internal fun substituteInjectedBlocks(settings: CodeStyleSettings,
     return injectedBlocks
 }
 
-private class GameCacheConfigInjectedLanguageBlockBuilder(settings: CodeStyleSettings, val outerBlocks: List<Block>)
+private class ModInjectedLanguageBlockBuilder(settings: CodeStyleSettings, val outerBlocks: List<Block>)
     : DefaultInjectedLanguageBlockBuilder(settings) {
 
     override fun supportsMultipleFragments(): Boolean = true
@@ -91,7 +91,7 @@ private class GameCacheConfigInjectedLanguageBlockBuilder(settings: CodeStyleSet
                                      language: Language): Block {
         this.injectionLanguage = language
         val trimmedRange = trimBlank(range, range.substring(node.text))
-        return GameCacheConfigInjectedLanguageBlockWrapper(originalBlock, injectedToHost(trimmedRange), trimmedRange, outerBlocks, indent, GameCacheConfigLanguage.INSTANCE)
+        return ModInjectedLanguageBlockWrapper(originalBlock, injectedToHost(trimmedRange), trimmedRange, outerBlocks, indent, ModLanguage.INSTANCE)
     }
 
     private fun trimBlank(range: TextRange, substring: String): TextRange {
@@ -100,14 +100,14 @@ private class GameCacheConfigInjectedLanguageBlockBuilder(settings: CodeStyleSet
         return if (preWS < range.length) range.run { TextRange(startOffset + preWS, endOffset - postWS) } else range
     }
 
-    private inner class GameCacheConfigInjectedLanguageBlockWrapper(val original: Block,
-                                                         val rangeInHost: TextRange,
-                                                         val myRange: TextRange,
-                                                         outerBlocks: Collection<Block>,
-                                                         private val indent: Indent?,
-                                                         private val language: Language?) : BlockEx {
+    private inner class ModInjectedLanguageBlockWrapper(val original: Block,
+                                                        val rangeInHost: TextRange,
+                                                        val myRange: TextRange,
+                                                        outerBlocks: Collection<Block>,
+                                                        private val indent: Indent?,
+                                                        private val language: Language?) : BlockEx {
 
-        override fun toString(): String = "GameCacheConfigInjectedLanguageBlockWrapper($original, $myRange," +
+        override fun toString(): String = "ModInjectedLanguageBlockWrapper($original, $myRange," +
                 " rangeInRoot = $textRange '${textRange.substring(injectionHost.psi.containingFile.text).escLBr()}')"
 
         override fun getTextRange(): TextRange {
@@ -126,7 +126,7 @@ private class GameCacheConfigInjectedLanguageBlockBuilder(settings: CodeStyleSet
                         val blockRangeInHost = injectedToHost(blockRange)
 
                         fun createInnerWrapper(blockRangeInHost: TextRange, blockRange: TextRange, outerNodes: Collection<Block>) =
-                            GameCacheConfigInjectedLanguageBlockWrapper(block,
+                            ModInjectedLanguageBlockWrapper(block,
                                 blockRangeInHost,
                                 blockRange,
                                 outerNodes,
@@ -168,7 +168,7 @@ private class GameCacheConfigInjectedLanguageBlockBuilder(settings: CodeStyleSet
         override fun getLanguage(): Language? = language
     }
 
-    private fun Block.unwrap() = this.castSafelyTo<GameCacheConfigInjectedLanguageBlockWrapper>()?.original ?: this
+    private fun Block.unwrap() = this.castSafelyTo<ModInjectedLanguageBlockWrapper>()?.original ?: this
 
     private fun <T> ArrayDeque<T>.popWhile(pred: (T) -> Boolean): List<T> {
         if (this.isEmpty()) return emptyList()

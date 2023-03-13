@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -22,7 +22,7 @@ import org.jetbrains.yaml.psi.impl.YAMLBlockScalarImpl
  *
  * See [8.1. Block Scalar Styles](http://yaml.org/spec/1.2/spec.html#id2793652)
  */
-internal class BlockScalarItemBlock private constructor(
+internal class ModBlockScalarItemBlock private constructor(
     val myRange: TextRange,
     val myIndent: Indent?,
     val myAlignment: Alignment?
@@ -71,36 +71,53 @@ internal class BlockScalarItemBlock private constructor(
     companion object {
         /** @return null iff it is not block scalar item
          */
-        fun createBlockScalarItem(context: FormattingContext, node: ASTNode): Block {
+        fun createBlockScalarItem(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, node: ASTNode): Block {
             val blockScalarNode = node.treeParent
             val blockScalarImpl = blockScalarNode.psi as YAMLBlockScalarImpl
 
             // possible performance problem: parent full indent for every block scalar line
-            val parentFullIndent = getParentFullIndent(context, blockScalarNode.treeParent)
+            val parentFullIndent =
+                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getParentFullIndent(
+                    context,
+                    blockScalarNode.treeParent
+                )
             val indent: Indent
             val range: TextRange
             var alignment: Alignment? = null
-            val oldOffset = Math.max(getNodeFullIndent(node) - parentFullIndent, 0)
+            val oldOffset = Math.max(
+                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getNodeFullIndent(
+                    node
+                ) - parentFullIndent, 0)
             if (blockScalarImpl.hasExplicitIndent()) {
                 range = TextRange(node.startOffset - oldOffset, node.textRange.endOffset)
                 indent = Indent.getSpaceIndent(0, true)
             } else {
                 // possible performance problem: calculating first line offset for every block scalar line
-                val needOffset = Math.max(oldOffset - getFirstLineOffset(context, blockScalarImpl), 0)
+                val needOffset = Math.max(oldOffset - ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getFirstLineOffset(
+                    context,
+                    blockScalarImpl
+                ), 0)
                 range = TextRange(node.startOffset - needOffset, node.textRange.endOffset)
                 alignment = context.computeAlignment(node)
                 indent = Indent.getNormalIndent(true)
             }
-            return BlockScalarItemBlock(range, indent, alignment)
+            return ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock(range, indent, alignment)
         }
 
-        private fun getFirstLineOffset(context: FormattingContext, blockScalarPsi: YAMLBlockScalarImpl): Int {
-            val parentFullIndent = getParentFullIndent(context, blockScalarPsi.node.treeParent)
+        private fun getFirstLineOffset(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, blockScalarPsi: YAMLBlockScalarImpl): Int {
+            val parentFullIndent =
+                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getParentFullIndent(
+                    context,
+                    blockScalarPsi.node.treeParent
+                )
             val firstLine = blockScalarPsi.getNthContentTypeChild(1) ?: return 0
-            return Math.max(getNodeFullIndent(firstLine) - parentFullIndent, 0)
+            return Math.max(
+                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getNodeFullIndent(
+                    firstLine
+                ) - parentFullIndent, 0)
         }
 
-        private fun getParentFullIndent(context: FormattingContext, node: ASTNode): Int {
+        private fun getParentFullIndent(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, node: ASTNode): Int {
             val fullText = context.fullText
             val start = node.textRange.startOffset
             for (cur in start - 1 downTo 0) {

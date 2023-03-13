@@ -1,5 +1,5 @@
 // Copyright 2000-2021 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod.psi.impl
 
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -18,9 +18,10 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.yaml.*
 import org.jetbrains.yaml.psi.*
 import org.jetbrains.yaml.psi.impl.YAMLPsiElementImpl
+import ps.shanty.intellij.mod.psi.ModKeyValue
 import javax.swing.Icon
 
-class GameCacheConfigKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), GameCacheConfigKeyValue {
+class ModKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), ModKeyValue {
 
     override fun toString(): String {
         return "Game Cache Config key value"
@@ -145,7 +146,7 @@ class GameCacheConfigKeyValueImpl(node: ASTNode) : YAMLPsiElementImpl(node), Gam
             }
 
             override fun getIcon(open: Boolean): Icon? {
-                return this@GameCacheConfigKeyValueImpl.getIcon(0)
+                return this@ModKeyValueImpl.getIcon(0)
             }
         }
     }

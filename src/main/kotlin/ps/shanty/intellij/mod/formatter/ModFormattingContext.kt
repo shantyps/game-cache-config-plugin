@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -20,14 +20,14 @@ import org.jetbrains.yaml.YAMLTokenTypes
 import org.jetbrains.yaml.psi.YAMLSequence
 import org.jetbrains.yaml.psi.YAMLSequenceItem
 import org.jetbrains.yaml.psi.YAMLValue
-import ps.shanty.intellij.parser.GameCacheConfigElementTypes
-import ps.shanty.intellij.parser.GameCacheConfigFileType
-import ps.shanty.intellij.parser.GameCacheConfigLanguage
-import ps.shanty.intellij.parser.GameCacheConfigKeyValue
+import ps.shanty.intellij.mod.ModElementTypes
+import ps.shanty.intellij.mod.ModFileType
+import ps.shanty.intellij.mod.ModLanguage
+import ps.shanty.intellij.mod.psi.ModKeyValue
 import java.util.*
 import java.util.function.Predicate
 
-class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: PsiFile) {
+class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile: PsiFile) {
     private val mySpaceBuilder: SpacingBuilder
 
     /** This alignments increase partial reformatting stability in case of initially incorrect indents  */
@@ -48,12 +48,12 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
     private var myFullText: String? = null
 
     init {
-        val custom = mySettings.getCustomSettings(CustomCodeStyleSettings::class.java)
-        val common = mySettings.getCommonSettings(GameCacheConfigLanguage.INSTANCE)
-        mySpaceBuilder = SpacingBuilder(mySettings, GameCacheConfigLanguage.INSTANCE)
-            .between(YAMLTokenTypes.COLON, GameCacheConfigElementTypes.KEY_VALUE_PAIR).lineBreakInCode()
-            .between(YAMLTokenTypes.COLON, GameCacheConfigElementTypes.SEQUENCE_ITEM).lineBreakInCode()
-            .between(GameCacheConfigElementTypes.ALIAS_NODE, YAMLTokenTypes.COLON).spaces(1)
+        val custom = mySettings.getCustomSettings(ModCodeStyleSettings::class.java)
+        val common = mySettings.getCommonSettings(ModLanguage.INSTANCE)
+        mySpaceBuilder = SpacingBuilder(mySettings, ModLanguage.INSTANCE)
+            .between(YAMLTokenTypes.COLON, ModElementTypes.KEY_VALUE_PAIR).lineBreakInCode()
+            .between(YAMLTokenTypes.COLON, ModElementTypes.SEQUENCE_ITEM).lineBreakInCode()
+            .between(ModElementTypes.ALIAS_NODE, YAMLTokenTypes.COLON).spaces(1)
             .before(YAMLTokenTypes.COLON).spaceIf(custom.SPACE_BEFORE_COLON)
             .after(YAMLTokenTypes.COLON).spaces(1)
             .after(YAMLTokenTypes.LBRACKET).spaceIf(common.SPACE_WITHIN_BRACKETS)
@@ -107,13 +107,13 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
             return null
         }
         val node2Type = PsiUtilCore.getElementType(node2)
-        var indentSize = mySettings.getIndentSize(GameCacheConfigFileType.GAME_CACHE_CONFIG)
+        var indentSize = mySettings.getIndentSize(ModFileType.MOD)
         if (indentSize < 2) {
             indentSize = 2
         }
         var spaces = 1
         var minLineFeeds = 0
-        if (node2Type === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+        if (node2Type === ModElementTypes.SEQUENCE_ITEM) {
             if (shouldInlineSequenceIntoSequence) {
                 // Set spaces to fit other items indent:
                 // -   - a # 3 spaces here if indent size is 4
@@ -122,7 +122,7 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
             } else {
                 minLineFeeds = 1
             }
-        } else if (node2Type === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
+        } else if (node2Type === ModElementTypes.KEY_VALUE_PAIR) {
             if (shouldInlineBlockMappingIntoSequence) {
                 // Set spaces to fit other items indent:
                 // -   a: x # 3 spaces here if indent size is 4
@@ -137,8 +137,8 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
 
     fun computeAlignment(node: ASTNode): Alignment? {
         val type = PsiUtilCore.getElementType(node)
-        if (type === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
-            if (node.treeParent.elementType === GameCacheConfigElementTypes.ARRAY) {
+        if (type === ModElementTypes.SEQUENCE_ITEM) {
+            if (node.treeParent.elementType === ModElementTypes.ARRAY) {
                 val sequence = node.treeParent.psi as YAMLSequence
                 for (child in sequence.items) {
                     // do not align multiline elements in json-style arrays
@@ -150,15 +150,15 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
             // Anyway we need to align `-` symbols in block-style sequences
             return myChildIndentAlignments[node.treeParent]
         }
-        if (type === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
+        if (type === ModElementTypes.KEY_VALUE_PAIR) {
             return myChildIndentAlignments[node.treeParent]
         }
-        if (getValueAlignment == CustomCodeStyleSettings.ALIGN_ON_COLON) {
+        if (getValueAlignment == ModCodeStyleSettings.ALIGN_ON_COLON) {
             if (type === YAMLTokenTypes.COLON) {
                 return myChildValueAlignments[node.treeParent.treeParent]
             }
-        } else if (getValueAlignment == CustomCodeStyleSettings.ALIGN_ON_VALUE) {
-            if (GameCacheConfigElementTypes.SCALAR_ITEMS.contains(type)) {
+        } else if (getValueAlignment == ModCodeStyleSettings.ALIGN_ON_VALUE) {
+            if (ModElementTypes.SCALAR_ITEMS.contains(type)) {
                 // for block scalar here we consider only headers
                 val prev = getPreviousNonBlankNode(node.treeParent)
                 if (PsiUtilCore.getElementType(prev) === YAMLTokenTypes.COLON) {
@@ -179,38 +179,38 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
         val grandParentType = if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
         val grand2ParentType =
             if (grandParentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent.treeParent)
-        assert(nodeType !== GameCacheConfigElementTypes.SEQUENCE) { "Sequence should be inlined!" }
-        assert(nodeType !== GameCacheConfigElementTypes.MAPPING) { "Mapping should be inlined!" }
-        assert(nodeType !== GameCacheConfigElementTypes.DOCUMENT) { "Document should be inlined!" }
-        return if (GameCacheConfigElementTypes.DOCUMENT_BRACKETS.contains(nodeType)) {
+        assert(nodeType !== ModElementTypes.SEQUENCE) { "Sequence should be inlined!" }
+        assert(nodeType !== ModElementTypes.MAPPING) { "Mapping should be inlined!" }
+        assert(nodeType !== ModElementTypes.DOCUMENT) { "Document should be inlined!" }
+        return if (ModElementTypes.DOCUMENT_BRACKETS.contains(nodeType)) {
             SAME_AS_PARENT_INDENT
-        } else if (GameCacheConfigElementTypes.BRACKETS.contains(nodeType)) {
+        } else if (ModElementTypes.BRACKETS.contains(nodeType)) {
             SAME_AS_INDENTED_ANCESTOR_INDENT
-        } else if (GameCacheConfigElementTypes.TEXT_SCALAR_ITEMS.contains(nodeType)) {
-            if (grandParentType === GameCacheConfigElementTypes.DOCUMENT) {
+        } else if (ModElementTypes.TEXT_SCALAR_ITEMS.contains(nodeType)) {
+            if (grandParentType === ModElementTypes.DOCUMENT) {
                 return SAME_AS_PARENT_INDENT
             }
-            if (grand2ParentType === GameCacheConfigElementTypes.ARRAY || grand2ParentType === GameCacheConfigElementTypes.HASH) {
+            if (grand2ParentType === ModElementTypes.ARRAY || grand2ParentType === ModElementTypes.HASH) {
                 Indent.getContinuationWithoutFirstIndent()
             } else DIRECT_NORMAL_INDENT
-        } else if (nodeType === GameCacheConfigElementTypes.FILE) {
+        } else if (nodeType === ModElementTypes.FILE) {
             SAME_AS_PARENT_INDENT
-        } else if (GameCacheConfigElementTypes.SCALAR_VALUES.contains(nodeType)) {
+        } else if (ModElementTypes.SCALAR_VALUES.contains(nodeType)) {
             DIRECT_NORMAL_INDENT
-        } else if (nodeType === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+        } else if (nodeType === ModElementTypes.SEQUENCE_ITEM) {
             computeSequenceItemIndent(node)
-        } else if (nodeType === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
+        } else if (nodeType === ModElementTypes.KEY_VALUE_PAIR) {
             computeKeyValuePairIndent(node)
         } else {
             if (nodeType === YAMLTokenTypes.COMMENT) {
-                if (parentType === GameCacheConfigElementTypes.SEQUENCE) {
+                if (parentType === ModElementTypes.SEQUENCE) {
                     return computeSequenceItemIndent(node)
                 }
-                if (parentType === GameCacheConfigElementTypes.MAPPING) {
+                if (parentType === ModElementTypes.MAPPING) {
                     return computeKeyValuePairIndent(node)
                 }
             }
-            if (GameCacheConfigElementTypes.TOP_LEVEL.contains(parentType)) SAME_AS_PARENT_INDENT else null
+            if (ModElementTypes.TOP_LEVEL.contains(parentType)) SAME_AS_PARENT_INDENT else null
         }
     }
 
@@ -226,22 +226,22 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
     }
 
     fun computeNewChildIndent(node: ASTNode): Indent? {
-        return if (GameCacheConfigElementTypes.TOP_LEVEL.contains(PsiUtilCore.getElementType(node))) SAME_AS_PARENT_INDENT else DIRECT_NORMAL_INDENT
+        return if (ModElementTypes.TOP_LEVEL.contains(PsiUtilCore.getElementType(node))) SAME_AS_PARENT_INDENT else DIRECT_NORMAL_INDENT
     }
 
     fun isIncomplete(node: ASTNode): Boolean {
         val possiblyIncompleteValue =
             Predicate { value: YAMLValue? ->
-                value == null || GameCacheConfigElementTypes.INCOMPLETE_BLOCKS.contains(
+                value == null || ModElementTypes.INCOMPLETE_BLOCKS.contains(
                     PsiUtilCore.getElementType(value)
                 )
             }
-        if (PsiUtilCore.getElementType(node) === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
-            val value = (node.psi as GameCacheConfigKeyValue).value
+        if (PsiUtilCore.getElementType(node) === ModElementTypes.KEY_VALUE_PAIR) {
+            val value = (node.psi as ModKeyValue).value
             if (possiblyIncompleteValue.test(value)) {
                 return true
             }
-        } else if (PsiUtilCore.getElementType(node) === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+        } else if (PsiUtilCore.getElementType(node) === ModElementTypes.SEQUENCE_ITEM) {
             val value = (node.psi as YAMLSequenceItem).value
             if (possiblyIncompleteValue.test(value)) {
                 return true
@@ -261,10 +261,10 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
     private fun computeSequenceItemIndent(node: ASTNode): Indent {
         val parentType = PsiUtilCore.getElementType(node.treeParent)
         val grandParentType = if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
-        val grandParentIsDocument = grandParentType === GameCacheConfigElementTypes.DOCUMENT
-        return if (parentType === GameCacheConfigElementTypes.ARRAY) {
+        val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT
+        return if (parentType === ModElementTypes.ARRAY) {
             Indent.getNormalIndent()
-        } else if (grandParentType === GameCacheConfigElementTypes.KEY_VALUE_PAIR) {
+        } else if (grandParentType === ModElementTypes.KEY_VALUE_PAIR) {
             if (shouldIndentSequenceValue) {
                 // key:
                 //   - x
@@ -326,7 +326,7 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
                 }
             ) { n: ASTNode? -> n!!.treePrev }.skip(1)
                 .filter { n: ASTNode? ->
-                    !GameCacheConfigElementTypes.SPACE_ELEMENTS.contains(
+                    !ModElementTypes.SPACE_ELEMENTS.contains(
                         n!!.elementType
                     )
                 }
@@ -376,8 +376,8 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
             val parentType = PsiUtilCore.getElementType(node.treeParent)
             val grandParentType =
                 if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
-            val grandParentIsDocument = grandParentType === GameCacheConfigElementTypes.DOCUMENT
-            return if (parentType === GameCacheConfigElementTypes.HASH) {
+            val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT
+            return if (parentType === ModElementTypes.HASH) {
                 // {
                 //   key: value
                 // }
@@ -386,7 +386,7 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
                 // ---
                 // key: value
                 SAME_AS_PARENT_INDENT
-            } else if (parentType === GameCacheConfigElementTypes.SEQUENCE_ITEM) {
+            } else if (parentType === ModElementTypes.SEQUENCE_ITEM) {
                 // [
                 //   a: x,
                 //   b: y
@@ -403,7 +403,7 @@ class FormattingContext(val mySettings: CodeStyleSettings, private val myFile: P
             var node: ASTNode? = node
             do {
                 node = TreeUtil.prevLeaf(node)
-                if (!GameCacheConfigElementTypes.BLANK_ELEMENTS.contains(PsiUtilCore.getElementType(node))) {
+                if (!ModElementTypes.BLANK_ELEMENTS.contains(PsiUtilCore.getElementType(node))) {
                     return node
                 }
             } while (node != null)

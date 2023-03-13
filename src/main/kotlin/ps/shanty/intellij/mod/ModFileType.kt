@@ -1,14 +1,9 @@
-package ps.shanty.intellij.parser
+package ps.shanty.intellij.mod
 
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
-import org.jetbrains.annotations.NonNls
-import org.jetbrains.yaml.YAMLBundle
-import org.jetbrains.yaml.YAMLFileType
-import org.jetbrains.yaml.YAMLLanguage
 import javax.swing.Icon
 
-class GameCacheConfigFileType : LanguageFileType(GameCacheConfigLanguage.INSTANCE) {
+class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
 
     override fun getName(): String {
         return "Game Cache Config File"
@@ -23,12 +18,12 @@ class GameCacheConfigFileType : LanguageFileType(GameCacheConfigLanguage.INSTANC
     }
 
     override fun getIcon(): Icon {
-        return GameCacheConfigIcons.LOGO
+        return ModIcons.LOGO
     }
 
     companion object {
         @JvmStatic
-        val GAME_CACHE_CONFIG = GameCacheConfigFileType()
+        val MOD = ModFileType()
         val DEFAULT_EXTENSION = "mod"
     }
 }

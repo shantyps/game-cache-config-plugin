@@ -1,4 +1,4 @@
-package ps.shanty.intellij.formatter
+package ps.shanty.intellij.mod.formatter
 
 import com.intellij.formatting.Block
 import com.intellij.formatting.FormattingContext
@@ -10,13 +10,13 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.formatter.DocumentBasedFormattingModel
 import com.intellij.psi.util.PsiUtilCore
 import org.jetbrains.yaml.psi.impl.YAMLBlockScalarImpl
-import ps.shanty.intellij.parser.GameCacheConfigElementTypes
+import ps.shanty.intellij.mod.ModElementTypes
 
-class FormattingModelBuilder : FormattingModelBuilder {
+class ModFormattingModelBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val file = formattingContext.containingFile
         val settings = formattingContext.codeStyleSettings
-        val rootBlock = createBlock(FormattingContext(settings, file), formattingContext.node)
+        val rootBlock = createBlock(ModFormattingContext(settings, file), formattingContext.node)
         return DocumentBasedFormattingModel(rootBlock, settings, file)
     }
 
@@ -26,23 +26,23 @@ class FormattingModelBuilder : FormattingModelBuilder {
 
     companion object {
         fun createBlock(
-            context: ps.shanty.intellij.formatter.FormattingContext,
+            context: ModFormattingContext,
             node: ASTNode
         ): Block {
             val nodeType = PsiUtilCore.getElementType(node)
-            if (GameCacheConfigElementTypes.BLOCK_SCALAR_ITEMS.contains(nodeType)) {
+            if (ModElementTypes.BLOCK_SCALAR_ITEMS.contains(nodeType)) {
                 val blockScalarNode = node.treeParent
                 assert(blockScalarNode.psi is YAMLBlockScalarImpl)
                 val blockScalarImpl = blockScalarNode.psi as YAMLBlockScalarImpl
                 if (blockScalarImpl.getNthContentTypeChild(0) !== node) {
                     // node is not block scalar header
-                    return BlockScalarItemBlock.createBlockScalarItem(context, node)
+                    return ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.createBlockScalarItem(context, node)
                 }
             }
-            assert(nodeType !== GameCacheConfigElementTypes.SEQUENCE) { "Sequence should be inlined!" }
-            assert(nodeType !== GameCacheConfigElementTypes.MAPPING) { "Mapping should be inlined!" }
-            assert(nodeType !== GameCacheConfigElementTypes.DOCUMENT) { "Document should be inlined!" }
-            return FormattingBlock(context, node)
+            assert(nodeType !== ModElementTypes.SEQUENCE) { "Sequence should be inlined!" }
+            assert(nodeType !== ModElementTypes.MAPPING) { "Mapping should be inlined!" }
+            assert(nodeType !== ModElementTypes.DOCUMENT) { "Document should be inlined!" }
+            return ModFormattingBlock(context, node)
         }
     }
 }
