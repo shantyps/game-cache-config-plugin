@@ -71,13 +71,13 @@ internal class ModBlockScalarItemBlock private constructor(
     companion object {
         /** @return null iff it is not block scalar item
          */
-        fun createBlockScalarItem(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, node: ASTNode): Block {
+        fun createBlockScalarItem(context: ModFormattingContext, node: ASTNode): Block {
             val blockScalarNode = node.treeParent
             val blockScalarImpl = blockScalarNode.psi as YAMLBlockScalarImpl
 
             // possible performance problem: parent full indent for every block scalar line
             val parentFullIndent =
-                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getParentFullIndent(
+                getParentFullIndent(
                     context,
                     blockScalarNode.treeParent
                 )
@@ -85,7 +85,7 @@ internal class ModBlockScalarItemBlock private constructor(
             val range: TextRange
             var alignment: Alignment? = null
             val oldOffset = Math.max(
-                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getNodeFullIndent(
+                getNodeFullIndent(
                     node
                 ) - parentFullIndent, 0)
             if (blockScalarImpl.hasExplicitIndent()) {
@@ -93,7 +93,7 @@ internal class ModBlockScalarItemBlock private constructor(
                 indent = Indent.getSpaceIndent(0, true)
             } else {
                 // possible performance problem: calculating first line offset for every block scalar line
-                val needOffset = Math.max(oldOffset - ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getFirstLineOffset(
+                val needOffset = Math.max(oldOffset - getFirstLineOffset(
                     context,
                     blockScalarImpl
                 ), 0)
@@ -101,23 +101,23 @@ internal class ModBlockScalarItemBlock private constructor(
                 alignment = context.computeAlignment(node)
                 indent = Indent.getNormalIndent(true)
             }
-            return ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock(range, indent, alignment)
+            return ModBlockScalarItemBlock(range, indent, alignment)
         }
 
-        private fun getFirstLineOffset(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, blockScalarPsi: YAMLBlockScalarImpl): Int {
+        private fun getFirstLineOffset(context: ModFormattingContext, blockScalarPsi: YAMLBlockScalarImpl): Int {
             val parentFullIndent =
-                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getParentFullIndent(
+                getParentFullIndent(
                     context,
                     blockScalarPsi.node.treeParent
                 )
             val firstLine = blockScalarPsi.getNthContentTypeChild(1) ?: return 0
             return Math.max(
-                ps.shanty.intellij.mod.formatter.ModBlockScalarItemBlock.Companion.getNodeFullIndent(
+                getNodeFullIndent(
                     firstLine
                 ) - parentFullIndent, 0)
         }
 
-        private fun getParentFullIndent(context: ps.shanty.intellij.mod.formatter.ModFormattingContext, node: ASTNode): Int {
+        private fun getParentFullIndent(context: ModFormattingContext, node: ASTNode): Int {
             val fullText = context.fullText
             val start = node.textRange.startOffset
             for (cur in start - 1 downTo 0) {
