@@ -2,8 +2,5 @@
 
 # game-cache-config-plugin Changelog
 
-## [Unreleased]
 ### Added
-- Fix for renaming adding file extension for mod files. 
-- Fix for renaming formatting. 
-- Add duplicate SNT entry checking.
+- Add hunt, varclient, varclan, and varclansettings to the list of supported cache config files.
