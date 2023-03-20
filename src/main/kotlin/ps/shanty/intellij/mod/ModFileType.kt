@@ -26,6 +26,6 @@ class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
         @JvmStatic
         val MOD = ModFileType()
         const val DEFAULT_EXTENSION = "mod"
-        const val ALL_EXTENSIONS = "mod;bas;enum;inv;loc;maparea;maplabel;mapfunc;npc;ns;obj;param;seq;struct;varbit;varcint;vardouble;varlong;varp;varstring"
+        const val ALL_EXTENSIONS = "mod;bas;enum;hunt;inv;loc;maparea;maplabel;mapfunc;npc;ns;obj;param;seq;struct;varbit;varclan;varclansetting;varclient;vardouble;varlong;varp;varstring"
     }
 }
