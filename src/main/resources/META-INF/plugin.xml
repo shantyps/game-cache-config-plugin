@@ -53,6 +53,11 @@
         <projectService serviceImplementation="ps.shanty.intellij.mod.ModElementGenerator"/>
 
         <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModInvalidGameCacheConfig"
+                         key="inspections.invalid.game.cache.config" level="ERROR"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="ps.shanty.intellij.mod.inspections.ModInvalidGameCacheConfigInspection"/>
+        <localInspection language="mod" bundle="messages.ModBundle"
                          shortName="ModUnresolvedAlias"
                          key="inspections.unresolved.alias.name" level="ERROR"
                          groupKey="inspections.group.name" enabledByDefault="true"
