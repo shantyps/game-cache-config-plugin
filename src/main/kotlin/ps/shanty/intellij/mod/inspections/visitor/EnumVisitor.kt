@@ -30,6 +30,9 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
             val valueEntries = SNTKeyIndex.instance.get(keyValue.valueText, mapping.project, GlobalSearchScope.allScope(mapping.project))
 
             if (keyEntries.isEmpty()) {
+                val extension = ModFileExtension.byType(keyType)
+                val folder = findPatchFolder(mapping.project, extension.patchFolder)
+                val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
                     ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.keyText),
@@ -38,10 +41,14 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
             }
 
             if (valueEntries.isEmpty()) {
+                val extension = ModFileExtension.byType(valueType)
+                val folder = findPatchFolder(mapping.project, extension.patchFolder)
+                val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
                     ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.valueText),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
+                    CreateModFileQuickFix(extension.extension, keyValue.valueText, smartFolder)
                 )
             }
         }
