@@ -52,6 +52,42 @@
 
         <projectService serviceImplementation="ps.shanty.intellij.mod.ModElementGenerator"/>
 
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModUnresolvedAlias"
+                         key="inspections.unresolved.alias.name" level="ERROR"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="ps.shanty.intellij.mod.inspections.ModUnresolvedAliasInspection"/>
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModRecursiveAlias"
+                         key="inspections.recursive.alias.name" level="ERROR"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="ps.shanty.intellij.mod.inspections.ModRecursiveAliasInspection"/>
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModDuplicatedKeys" level="ERROR"
+                         key="inspections.duplicated.keys.name"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="ps.shanty.intellij.mod.inspections.ModDuplicatedKeysInspection"/>
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModUnusedAnchor"
+                         key="inspections.unused.anchor.name" level="WARNING"
+                         groupKey="inspections.group.name" enabledByDefault="true"
+                         implementationClass="ps.shanty.intellij.mod.inspections.ModUnusedAnchorInspection"/>
+
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModSchemaValidation"
+                         key="inspections.schema.validation.name"
+                         groupKey="inspections.group.name"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="ps.shanty.intellij.mod.schema.ModJsonSchemaHighlightingInspection"/>
+        <localInspection language="mod" bundle="messages.ModBundle"
+                         shortName="ModSchemaDeprecation"
+                         key="inspections.schema.deprecation.name"
+                         groupKey="inspections.group.name"
+                         enabledByDefault="true"
+                         level="WEAK WARNING"
+                         implementationClass="ps.shanty.intellij.mod.schema.ModJsonSchemaDeprecationInspection"/>
+
         <!-- SNT files -->
         <fileType name="Shanty Name Table File" implementationClass="ps.shanty.intellij.snt.SNTFileType"
                   fieldName="SNT" language="snt" extensions="snt"/>
@@ -95,42 +131,6 @@
                                       language="mod"/>
         <languageInjectionPerformer implementationClass="org.jetbrains.yaml.YamlLanguageInjectionPerformer"
                                     language="mod"/>
-
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modUnresolvedAlias"
-                         key="inspections.unresolved.alias.name" level="ERROR"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnresolvedAliasInspection"/>
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modRecursiveAlias"
-                         key="inspections.recursive.alias.name" level="ERROR"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLRecursiveAliasInspection"/>
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modDuplicatedKeys" level="ERROR"
-                         key="inspections.duplicated.keys.name"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLDuplicatedKeysInspection"/>
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modUnusedAnchor"
-                         key="inspections.unused.anchor.name" level="WARNING"
-                         groupKey="inspections.group.name" enabledByDefault="true"
-                         implementationClass="org.jetbrains.yaml.inspections.YAMLUnusedAnchorInspection"/>
-
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modSchemaValidation"
-                         key="inspections.schema.validation.name"
-                         groupKey="inspections.group.name"
-                         enabledByDefault="true"
-                         level="WARNING"
-                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection"/>
-        <localInspection language="mod" bundle="messages.YAMLBundle"
-                         shortName="modSchemaDeprecation"
-                         key="inspections.schema.deprecation.name"
-                         groupKey="inspections.group.name"
-                         enabledByDefault="true"
-                         level="WEAK WARNING"
-                         implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDeprecationInspection"/>
 
         <!-- copied from Propertie's plugin.xml for snt files -->
         <lang.refactoringSupport language="snt"

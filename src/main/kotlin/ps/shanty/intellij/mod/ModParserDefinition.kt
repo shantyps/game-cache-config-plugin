@@ -21,7 +21,7 @@ class ModParserDefinition : YAMLParserDefinition() {
             return YAMLDocumentImpl(node)
         }
         if (type === ModElementTypes.KEY_VALUE_PAIR) {
-            return YAMLKeyValueImpl(node)
+            return ModKeyValueImpl(node)
         }
         if (type === ModElementTypes.COMPOUND_VALUE) {
             return YAMLCompoundValueImpl(node)
