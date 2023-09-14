@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.2] - 2023-03-19
+## [1.1.3] - 2023-09-14
+
+### Added
+
+- Update plugin support build number
+
+## [1.1.2] - 2023-05-12
 
 ### Added
 
