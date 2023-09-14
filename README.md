@@ -3,7 +3,11 @@
 ![Build](https://github.com/shantyps/game-cache-config-plugin/workflows/Build/badge.svg)
 
 <!-- Plugin description -->
-This plugin resolves Shanty game cache config YAML files to have references within them, allowing for CTRL + Click navigation to defined YAML files.
+This plugin resolves Shanty game cache config MOD files to have references within them, allowing for CTRL + Click navigation to defined MOD files. The plugin also has support for MOD files to refer to SNT (Shanty Name Table) references. The tool also provides assistance with renaming SNT entries or MOD files.
+
+![MOD renaming](https://i.imgur.com/DLrXw1p.gif)
+
+![SNT renaming](https://i.imgur.com/NiCqtPZ.gif)
 <!-- Plugin description end -->
 
 ## Installation
