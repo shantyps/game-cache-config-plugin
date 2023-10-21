@@ -99,7 +99,7 @@ internal class ModBlockScalarItemBlock private constructor(
                 ), 0)
                 range = TextRange(node.startOffset - needOffset, node.textRange.endOffset)
                 alignment = context.computeAlignment(node)
-                indent = Indent.getNormalIndent(true)
+                indent = Indent.getSpaceIndent(2, true)
             }
             return ModBlockScalarItemBlock(range, indent, alignment)
         }

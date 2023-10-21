@@ -263,7 +263,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
         val grandParentType = if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
         val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT
         return if (parentType === ModElementTypes.ARRAY) {
-            Indent.getNormalIndent()
+            Indent.getSpaceIndent(2)
         } else if (grandParentType === ModElementTypes.KEY_VALUE_PAIR) {
             if (shouldIndentSequenceValue) {
                 // key:
@@ -290,7 +290,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
     }
 
     companion object {
-        private val DIRECT_NORMAL_INDENT = Indent.getNormalIndent(true)
+        private val DIRECT_NORMAL_INDENT = Indent.getSpaceIndent(2, true)
         private val SAME_AS_PARENT_INDENT = Indent.getSpaceIndent(0, true)
         private val SAME_AS_INDENTED_ANCESTOR_INDENT = Indent.getSpaceIndent(0)
         private val NON_SIGNIFICANT_TOKENS_BEFORE_TEMPLATE =
@@ -381,7 +381,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
                 // {
                 //   key: value
                 // }
-                Indent.getNormalIndent()
+                Indent.getSpaceIndent(2)
             } else if (grandParentIsDocument || parentType === ModElementTypes.MAPPING) {
                 // ---
                 // key: value
