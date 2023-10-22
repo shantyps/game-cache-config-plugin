@@ -35,7 +35,8 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 holder.registerProblem(
                     keyValue.key!!,
                     ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.keyText),
-                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
+                    CreateModFileQuickFix(keyExtension.extension, keyValue.keyText, smartFolder)
                 )
             }
 
