@@ -25,8 +25,10 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
         }
 
         for (keyValue in params.keyValues) {
-            val keyEntries = SNTKeyIndex.instance.get(keyValue.keyText, mapping.project, GlobalSearchScope.allScope(mapping.project))
-            val valueEntries = SNTKeyIndex.instance.get(keyValue.valueText, mapping.project, GlobalSearchScope.allScope(mapping.project))
+            val keyText = keyValue.key?.text?.replace("\"", "") ?: continue
+            val valueText = keyValue.value?.text?.replace("\"", "") ?: continue
+            val keyEntries = SNTKeyIndex.instance.get(keyText, mapping.project, GlobalSearchScope.allScope(mapping.project))
+            val valueEntries = SNTKeyIndex.instance.get(valueText, mapping.project, GlobalSearchScope.allScope(mapping.project))
 
             val keyExtension = ModFileExtension.byType(keyType)
             if (keyEntries.isEmpty() && keyExtension != null) {
@@ -34,9 +36,9 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.keyText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(keyExtension.extension, keyValue.keyText, smartFolder)
+                    CreateModFileQuickFix(keyExtension.extension, keyText, smartFolder)
                 )
             }
 
@@ -46,9 +48,9 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.valueText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(valueExtension.extension, keyValue.valueText, smartFolder)
+                    CreateModFileQuickFix(valueExtension.extension, valueText, smartFolder)
                 )
             }
         }
