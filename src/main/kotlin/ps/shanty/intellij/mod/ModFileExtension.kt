@@ -32,8 +32,8 @@ enum class ModFileExtension(val extension: String, val patchFolder: String, val 
             return values().first { it.extension.equals(extensionName, ignoreCase = true) }
         }
 
-        fun byType(type: String): ModFileExtension {
-            return values().first { it.type.equals(type, ignoreCase = true) }
+        fun byType(type: String): ModFileExtension? {
+            return values().firstOrNull { it.type.equals(type, ignoreCase = true) }
         }
     }
 }

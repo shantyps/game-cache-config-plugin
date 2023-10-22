@@ -3,7 +3,6 @@ package ps.shanty.intellij.mod.inspections.visitor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.SmartPointerManager
-import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.DirtyUI
 import org.jetbrains.yaml.psi.YAMLMapping
@@ -17,9 +16,9 @@ import ps.shanty.intellij.snt.SNTKeyIndex
 class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() {
     @DirtyUI
     override fun visitMapping(mapping: YAMLMapping) {
-        val keyType = mapping.getKeyValueByKey("keyType")?.valueText ?: return
-        val valueType = mapping.getKeyValueByKey("valueType")?.valueText ?: return
-        val params = mapping.getKeyValueByKey("params")?.value ?: return
+        val keyType = mapping.getKeyValueByKey("input_type")?.valueText ?: return
+        val valueType = mapping.getKeyValueByKey("output_type")?.valueText ?: return
+        val params = mapping.getKeyValueByKey("values")?.value ?: return
 
         if (params !is YAMLMapping) {
             return
@@ -29,9 +28,9 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
             val keyEntries = SNTKeyIndex.instance.get(keyValue.keyText, mapping.project, GlobalSearchScope.allScope(mapping.project))
             val valueEntries = SNTKeyIndex.instance.get(keyValue.valueText, mapping.project, GlobalSearchScope.allScope(mapping.project))
 
-            if (keyEntries.isEmpty()) {
-                val extension = ModFileExtension.byType(keyType)
-                val folder = findPatchFolder(mapping.project, extension.patchFolder)
+            val keyExtension = ModFileExtension.byType(keyType)
+            if (keyEntries.isEmpty() && keyExtension != null) {
+                val folder = findPatchFolder(mapping.project, keyExtension.patchFolder)
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
@@ -40,15 +39,15 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 )
             }
 
-            if (valueEntries.isEmpty()) {
-                val extension = ModFileExtension.byType(valueType)
-                val folder = findPatchFolder(mapping.project, extension.patchFolder)
+            val valueExtension = ModFileExtension.byType(valueType)
+            if (valueEntries.isEmpty() && valueExtension != null) {
+                val folder = findPatchFolder(mapping.project, valueExtension.patchFolder)
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
                     ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.valueText),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(extension.extension, keyValue.valueText, smartFolder)
+                    CreateModFileQuickFix(valueExtension.extension, keyValue.valueText, smartFolder)
                 )
             }
         }
