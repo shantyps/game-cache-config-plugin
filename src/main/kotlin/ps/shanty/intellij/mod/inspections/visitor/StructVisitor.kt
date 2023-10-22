@@ -24,20 +24,21 @@ class StructVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor(
         }
 
         for (keyValue in params.keyValues) {
-            val keyEntries = SNTKeyIndex.instance.get(keyValue.keyText, mapping.project, GlobalSearchScope.allScope(mapping.project))
+            val keyText = keyValue.key?.text?.replace("\"", "") ?: continue
+            val keyEntries = SNTKeyIndex.instance.get(keyText, mapping.project, GlobalSearchScope.allScope(mapping.project))
 
             if (keyEntries.isEmpty()) {
                 val folder = findPatchFolder(mapping.project, ModFileExtension.PARAM.patchFolder)
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyValue.keyText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText, ModFileExtension.PARAM.extension, ModFileExtension.PARAM.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(ModFileExtension.PARAM.extension, keyValue.keyText, smartFolder)
+                    CreateModFileQuickFix(ModFileExtension.PARAM.extension, keyText, smartFolder)
                 )
             }
 
-            val extension = ParamUtil.findParamType(mapping.project, keyValue.keyText) ?: continue
+            val extension = ParamUtil.findParamType(mapping.project, keyText) ?: continue
             val valueText = keyValue.value?.text?.replace("\"", "") ?: continue
             val valueEntries = SNTKeyIndex.instance.get(valueText, mapping.project, GlobalSearchScope.allScope(mapping.project))
             if (valueEntries.isEmpty() && keyValue.value != null) {
@@ -45,7 +46,7 @@ class StructVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor(
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText, extension.extension, extension.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     CreateModFileQuickFix(extension.extension, valueText, smartFolder)
                 )

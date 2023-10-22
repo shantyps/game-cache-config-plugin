@@ -36,7 +36,7 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText, keyExtension.extension, keyExtension.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     CreateModFileQuickFix(keyExtension.extension, keyText, smartFolder)
                 )
@@ -48,7 +48,7 @@ class EnumVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor() 
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText, valueExtension.extension, valueExtension.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                     CreateModFileQuickFix(valueExtension.extension, valueText, smartFolder)
                 )
