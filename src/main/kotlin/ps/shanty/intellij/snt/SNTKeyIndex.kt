@@ -25,7 +25,9 @@ class SNTKeyIndex : StringStubIndexExtension<SNTEntry>() {
         val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: return false
         val sntFile = psiFile as? SNTFile ?: return false
         for (property in sntFile.properties) {
-            processor.process(property.key)
+            if (!processor.process(property.key)) {
+                break
+            }
         }
         return true
     }
