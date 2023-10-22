@@ -60,4 +60,8 @@ class ModBlockMappingImpl(node: ASTNode) : YAMLBlockMappingImpl(node) {
         }
         add(key)
     }
+
+    override fun toString(): String {
+        return "MOD Mapping"
+    }
 }

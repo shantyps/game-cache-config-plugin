@@ -50,6 +50,8 @@
 
         <langCodeStyleSettingsProvider implementation="ps.shanty.intellij.mod.ModLanguageCodeStyleSettingsProvider"/>
 
+        <completion.contributor language="mod" implementationClass="ps.shanty.intellij.mod.schema.ModJsonSchemaCompletionContributor"/>
+
         <projectService serviceImplementation="ps.shanty.intellij.mod.ModElementGenerator"/>
 
         <localInspection language="mod" bundle="messages.ModBundle"
@@ -125,8 +127,6 @@
                                       implementationClass="com.intellij.codeInsight.editorActions.SmartBackspaceDisabler"/>
         <lang.psiStructureViewFactory language="mod"
                                       implementationClass="org.jetbrains.yaml.structureView.YAMLStructureViewFactory"/>
-        <completion.contributor order="first" language="mod" id="ModJsonSchema"
-                                implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaCompletionContributor"/>
         <lang.documentationProvider language="mod"
                                     implementationClass="org.jetbrains.yaml.schema.YamlJsonSchemaDocumentationProvider"
                                     id="ModJsonSchemaDocumentationProvider"/>

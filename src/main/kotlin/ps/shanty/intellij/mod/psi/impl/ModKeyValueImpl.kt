@@ -5,8 +5,6 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiUtilCore
 import org.jetbrains.yaml.YAMLTokenTypes
-import org.jetbrains.yaml.psi.YAMLCompoundValue
-import org.jetbrains.yaml.psi.YAMLScalar
 import org.jetbrains.yaml.psi.impl.YAMLKeyValueImpl
 import ps.shanty.intellij.mod.ModElementTypes
 
@@ -37,5 +35,9 @@ class ModKeyValueImpl(node: ASTNode) : YAMLKeyValueImpl(node) {
 
         val text = keyElement.text
         return StringUtil.unquoteString(text)
+    }
+
+    override fun toString(): String {
+        return "MOD key value"
     }
 }
