@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 import com.jetbrains.jsonSchema.ide.JsonSchemaService
 import com.jetbrains.jsonSchema.impl.JsonSchemaCompletionContributor
+import org.jetbrains.yaml.psi.YAMLDocument
 import ps.shanty.intellij.mod.psi.impl.ModBlockMappingImpl
 import ps.shanty.intellij.mod.psi.impl.ModKeyValueImpl
 import ps.shanty.intellij.mod.psi.impl.ModPlainTextImpl
@@ -54,10 +55,16 @@ class ModJsonSchemaCompletionContributor : CompletionContributor() {
     }
 
     private fun PsiElement.isStructParamKey(): Boolean {
-        return parent is ModPlainTextImpl &&
+        return (parent is ModPlainTextImpl &&
                 parent.parent is ModBlockMappingImpl &&
                 parent.parent.parent is ModKeyValueImpl &&
-                parent.parent.parent.parent is ModBlockMappingImpl
+                parent.parent.parent.parent is ModBlockMappingImpl &&
+                parent.parent.parent.parent.parent is YAMLDocument)
+                ||
+                (parent is ModPlainTextImpl &&
+                        parent.parent is ModKeyValueImpl &&
+                        parent.parent.parent is ModBlockMappingImpl &&
+                        parent.parent.parent.parent is YAMLDocument)
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
