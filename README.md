@@ -8,6 +8,8 @@ This plugin resolves Shanty game cache config MOD files to have references withi
 ![MOD renaming](https://i.imgur.com/DLrXw1p.gif)
 
 ![SNT renaming](https://i.imgur.com/NiCqtPZ.gif)
+
+![Struct autocompletion](https://i.imgur.com/T41TVNG.gif)
 <!-- Plugin description end -->
 
 ## Installation
