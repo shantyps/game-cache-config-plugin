@@ -1,0 +1,26 @@
+name: Publish Commits to Discord
+
+on:
+  - push
+
+jobs:
+  publish-commits:
+    runs-on: ubuntu-latest
+    name: discord commits
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Discord Commits
+        uses: Sniddl/discord-commits@v1.6
+        with:
+          webhook: ${{ secrets.PRIVATE_DISCORD_WEBHOOK }}
+          template: 'avatar-with-link'
+          include-extras: true
+
+      - name: Discord Commits
+        uses: Sniddl/discord-commits@v1.6
+        with:
+          webhook: ${{ secrets.PUBLIC_DISCORD_WEBHOOK }}
+          template: 'avatar-with-link'
+          include-extras: true
