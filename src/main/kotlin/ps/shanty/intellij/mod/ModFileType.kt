@@ -27,6 +27,6 @@ class ModFileType : LanguageFileType(ModLanguage.INSTANCE) {
         val MOD = ModFileType()
         const val DEFAULT_EXTENSION = "mod"
         val ALL_EXTENSIONS
-            get() = ModFileExtension.values().joinToString(";") { it.extension }
+            get() = ModFileExtension.values().joinToString(";") { it.extensions.joinToString(";") }
     }
 }

@@ -24,7 +24,7 @@
 
         <!-- Mod files -->
         <fileType name="Game Cache Config File" implementationClass="ps.shanty.intellij.mod.ModFileType"
-                  fieldName="MOD" language="mod" extensions="mod;bas;enum;hunt;inv;loc;maparea;maplabel;mapfunc;npc;ns;obj;param;seq;struct;varbit;varclan;varclansetting;varclient;vardouble;varlong;varp;varstring"/>
+                  fieldName="MOD" language="mod" extensions="mod;mod2;bas;bas2;enum;enum2;hunt;hunt2;inv;inv2;loc;loc2;maparea;maparea2;maplabel;maplabel2;mel;mel2;npc;npc2;ns;obj;oj2;param;param2;seq;seq2;struct;struct2;varbit;varbit2;varclient;varclient2;vardouble;vardouble2;varlong;varlong2;varp;varp2;varstring;varstring2"/>
 
         <psi.referenceContributor language="mod"
                                   implementation="ps.shanty.intellij.mod.ModReferenceContributor"/>

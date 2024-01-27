@@ -32,9 +32,9 @@ class StructVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor(
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.key!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText, ModFileExtension.PARAM.extension, ModFileExtension.PARAM.sntName),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", keyText, ModFileExtension.PARAM.extensions, ModFileExtension.PARAM.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(ModFileExtension.PARAM.extension, keyText, smartFolder)
+                    CreateModFileQuickFix(ModFileExtension.PARAM.extensions.last(), keyText, smartFolder)
                 )
             }
 
@@ -46,9 +46,9 @@ class StructVisitor(private val holder: ProblemsHolder) : YamlPsiElementVisitor(
                 val smartFolder = SmartPointerManager.getInstance(mapping.project).createSmartPsiElementPointer(folder)
                 holder.registerProblem(
                     keyValue.value!!,
-                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText, extension.extension, extension.sntName),
+                    ModBundle.message("ModInvalidGameCacheConfigInspection.no.snt.entry", valueText, extension.extensions, extension.sntName),
                     ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    CreateModFileQuickFix(extension.extension, valueText, smartFolder)
+                    CreateModFileQuickFix(extension.extensions.last(), valueText, smartFolder)
                 )
             }
         }

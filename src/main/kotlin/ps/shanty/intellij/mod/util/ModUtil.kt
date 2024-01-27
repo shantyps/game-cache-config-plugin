@@ -3,7 +3,6 @@ package ps.shanty.intellij.mod.util
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiFileSystemItem
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import ps.shanty.intellij.mod.ModFileType

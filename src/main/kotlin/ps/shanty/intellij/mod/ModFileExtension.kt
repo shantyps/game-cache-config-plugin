@@ -1,37 +1,37 @@
 package ps.shanty.intellij.mod
 
-enum class ModFileExtension(val extension: String, val patchFolder: String, val type: String, val sntName: String) {
-    MOD("mod", "", "", ""),
-    BAS(extension = "bas", patchFolder = "bas", type = "", sntName = "bas"),
-    ENUM(extension = "enum", patchFolder = "enum", type = "enum", sntName = "enum"),
-    HUNT(extension = "hunt", patchFolder = "hunt", type = "", sntName = "hunt"),
-    INV(extension = "inv", patchFolder = "inv", type = "inv", sntName = "inv"),
-    LOC(extension = "loc", patchFolder = "loc", type = "loc", sntName = "loc"),
-    MAPAREA(extension = "maparea", patchFolder = "map_area", type = "map_area", sntName = "map_area"),
-    MAPLABEL(extension = "maplabel", patchFolder = "map_label", type = "", sntName = "mapfunction"),
-    MAPFUNC(extension = "mapfunc", patchFolder = "mapfunction", type = "", sntName = "mapfunction"),
-    NPC(extension = "npc", patchFolder = "npc", type = "npc", sntName = "npc"),
-    NS(extension = "ns", patchFolder = "npcspawn", type = "", sntName = ""),
-    OBJ(extension = "obj", patchFolder = "obj", type = "named_obj", sntName = "obj"),
-    PARAM(extension = "param", patchFolder = "param", type = "param", sntName = "param"),
-    SEQ(extension = "seq", patchFolder = "seq", type = "seq", sntName = "seq"),
-    STRUCT(extension = "struct", patchFolder = "struct", type = "struct", sntName = "struct"),
-    VARBIT(extension = "varbit", patchFolder = "varbit", type = "varbit", sntName = "varbit"),
-    VARCLIENT(extension = "varclient", patchFolder = "varclient", type = "", sntName = "varclient"),
-    VARDOUBLE(extension = "vardouble", patchFolder = "vardouble", type = "", sntName = "vardouble"),
-    VARLONG(extension = "varlong", patchFolder = "varlong", type = "", sntName = "varlong"),
-    VARP(extension = "varp", patchFolder = "varp", type = "varp", sntName = "varp"),
-    VARSTRING(extension = "varstring", patchFolder = "varstring", type = "", sntName = "varstring"),
+enum class ModFileExtension(val extensions: List<String>, val patchFolder: String, val types: List<String>, val sntName: String) {
+    MOD(extensions = listOf("mod", "mod2"), "", listOf(""), ""),
+    BAS(extensions = listOf("bas", "bas2"), patchFolder = "bas", types = listOf(""), sntName = "bas"),
+    ENUM(extensions = listOf("enum", "enum2"), patchFolder = "enum", types = listOf("enum"), sntName = "enum"),
+    HUNT(extensions = listOf("hunt", "hunt2"), patchFolder = "hunt", types = listOf(""), sntName = "hunt"),
+    INV(extensions = listOf("inv", "inv2"), patchFolder = "inv", types = listOf("inv"), sntName = "inv"),
+    LOC(extensions = listOf("loc", "loc2"), patchFolder = "loc", types = listOf("loc"), sntName = "loc"),
+    MAPAREA(extensions = listOf("maparea", "maparea2"), patchFolder = "map_area", types = listOf("map_area"), sntName = "map_area"),
+    MAPLABEL(extensions = listOf("maplabel", "maplabel2"), patchFolder = "map_label", types = listOf(""), sntName = "mapfunction"),
+    MAPFUNC(extensions = listOf("mel", "mel2"), patchFolder = "mapfunction", types = listOf(""), sntName = "mel"),
+    NPC(extensions = listOf("npc", "npc2"), patchFolder = "npc", types = listOf("npc"), sntName = "npc"),
+    NS(extensions = listOf("ns"), patchFolder = "npcspawn", types = listOf(""), sntName = ""),
+    OBJ(extensions = listOf("obj", "oj2"), patchFolder = "obj", types = listOf("obj", "named_obj"), sntName = "obj"),
+    PARAM(extensions = listOf("param", "param2"), patchFolder = "param", types = listOf("param"), sntName = "param"),
+    SEQ(extensions = listOf("seq", "seq2"), patchFolder = "seq", types = listOf("seq"), sntName = "seq"),
+    STRUCT(extensions = listOf("struct", "struct2"), patchFolder = "struct", types = listOf("struct"), sntName = "struct"),
+    VARBIT(extensions = listOf("varbit", "varbit2"), patchFolder = "varbit", types = listOf("varbit"), sntName = "varbit"),
+    VARCLIENT(extensions = listOf("varclient", "varclient2"), patchFolder = "varclient", types = listOf(""), sntName = "varclient"),
+    VARDOUBLE(extensions = listOf("vardouble", "vardouble2"), patchFolder = "vardouble", types = listOf(""), sntName = "vardouble"),
+    VARLONG(extensions = listOf("varlong", "varlong2"), patchFolder = "varlong", types = listOf(""), sntName = "varlong"),
+    VARP(extensions = listOf("varp", "varp2"), patchFolder = "varp", types = listOf("varp"), sntName = "varp"),
+    VARSTRING(extensions = listOf("varstring", "varstring2"), patchFolder = "varstring", types = listOf(""), sntName = "varstring"),
 
     ;
 
     companion object {
         fun byExtensionName(extensionName: String): ModFileExtension {
-            return values().first { it.extension.equals(extensionName, ignoreCase = true) }
+            return values().first { it.extensions.any { it.equals(extensionName, ignoreCase = true) } }
         }
 
         fun byType(type: String): ModFileExtension? {
-            return values().firstOrNull { it.type.equals(type, ignoreCase = true) }
+            return values().firstOrNull { it.types.any { it.equals(type, ignoreCase = true) } }
         }
     }
 }
