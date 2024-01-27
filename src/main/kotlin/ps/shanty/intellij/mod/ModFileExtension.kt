@@ -12,7 +12,7 @@ enum class ModFileExtension(val extensions: List<String>, val patchFolder: Strin
     MAPFUNC(extensions = listOf("mel", "mel2"), patchFolder = "mapfunction", types = listOf(""), sntName = "mel"),
     NPC(extensions = listOf("npc", "npc2"), patchFolder = "npc", types = listOf("npc"), sntName = "npc"),
     NS(extensions = listOf("ns"), patchFolder = "npcspawn", types = listOf(""), sntName = ""),
-    OBJ(extensions = listOf("obj", "oj2"), patchFolder = "obj", types = listOf("obj", "named_obj"), sntName = "obj"),
+    OBJ(extensions = listOf("obj", "obj2"), patchFolder = "obj", types = listOf("obj", "named_obj"), sntName = "obj"),
     PARAM(extensions = listOf("param", "param2"), patchFolder = "param", types = listOf("param"), sntName = "param"),
     SEQ(extensions = listOf("seq", "seq2"), patchFolder = "seq", types = listOf("seq"), sntName = "seq"),
     STRUCT(extensions = listOf("struct", "struct2"), patchFolder = "struct", types = listOf("struct"), sntName = "struct"),
