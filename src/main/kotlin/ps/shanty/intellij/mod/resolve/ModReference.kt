@@ -26,7 +26,9 @@ internal class ModReference(
         val results = mutableListOf<ResolveResult>()
         results.addAll(multiResolveFileReference(project))
         results.addAll(multiResolveMod2NameReference(project))
-        results.addAll(multiResolveSNTNameReference(project))
+        if (results.isEmpty()) {
+            results.addAll(multiResolveSNTNameReference(project))
+        }
         return results.toTypedArray()
     }
 
