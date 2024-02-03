@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - N/A
 
+## [1.3.0] - 2024-02-03
+
+### Added
+
+- Implement support for mod2, bas2, enum2, hunt2, inv2, loc2, 
+maparea2, maplabel2, mel2, npc2, obj2, param2, seq2, struct2, varbit2, 
+varclient2, vardouble2, varlong2, varp2, and varstring2 file types.
+  - Implement indexing for new mod2 file format. 
+  - Implement resolutions for mod2 files to be at config-level rather than file-level.
+- Refactor mapfunc to mel.
+- Add chart icon to SNT file results instead of property icons.
+
 ## [1.2.1] - 2023-10-22
 
 ### Added
