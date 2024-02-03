@@ -12,7 +12,6 @@ import org.jetbrains.yaml.YAMLBundle
 import org.jetbrains.yaml.YAMLTokenTypes
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLValue
-import org.jetbrains.yaml.psi.impl.YAMLBlockMappingImpl
 import org.jetbrains.yaml.psi.impl.YAMLBlockSequenceImpl
 import ps.shanty.intellij.mod.psi.impl.ModBlockMappingImpl
 
@@ -31,7 +30,7 @@ class ModSameLineCompositeValueErrorAnnotator : Annotator {
         val documentContent = document.charsSequence
         val value = keyValue.value
         if (value is ModBlockMappingImpl) {
-            val firstSubValue = value.firstKeyValue
+            val firstSubValue = value.getFirstKeyValue()
             if (psiAreAtTheSameLine(key, firstSubValue, documentContent)) {
                 reportAboutSameLine(holder, value)
             }

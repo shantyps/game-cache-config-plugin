@@ -15,12 +15,18 @@ import ps.shanty.intellij.mod.psi.impl.*
 
 class ModParserDefinition : YAMLParserDefinition() {
 
-    override fun createElement(node: ASTNode?): PsiElement {
-        val type = node!!.elementType
+    override fun createElement(node: ASTNode): PsiElement {
+        val type = node.elementType
         if (type === ModElementTypes.DOCUMENT) {
             return YAMLDocumentImpl(node)
         }
+        if (type === Mod2ElementTypes.DOCUMENT) {
+            return ModDocumentImpl(node)
+        }
         if (type === ModElementTypes.KEY_VALUE_PAIR) {
+            return ModKeyValueImpl(node)
+        }
+        if (type === Mod2ElementTypes.KEY_VALUE_PAIR) {
             return ModKeyValueImpl(node)
         }
         if (type === ModElementTypes.COMPOUND_VALUE) {
@@ -30,6 +36,9 @@ class ModParserDefinition : YAMLParserDefinition() {
             return YAMLBlockSequenceImpl(node)
         }
         if (type === ModElementTypes.MAPPING) {
+            return ModBlockMappingImpl(node)
+        }
+        if (type === Mod2ElementTypes.MAPPING) {
             return ModBlockMappingImpl(node)
         }
         if (type === ModElementTypes.SEQUENCE_ITEM) {
@@ -75,6 +84,7 @@ class ModParserDefinition : YAMLParserDefinition() {
     }
 
     override fun getFileNodeType(): IFileElementType {
-        return ModElementTypes.FILE
+//        return ModElementTypes.FILE
+        return Mod2ElementTypes.FILE
     }
 }

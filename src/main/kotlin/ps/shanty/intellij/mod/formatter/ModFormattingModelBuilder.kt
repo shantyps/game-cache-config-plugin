@@ -10,6 +10,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.formatter.DocumentBasedFormattingModel
 import com.intellij.psi.util.PsiUtilCore
 import org.jetbrains.yaml.psi.impl.YAMLBlockScalarImpl
+import ps.shanty.intellij.mod.Mod2ElementTypes
 import ps.shanty.intellij.mod.ModElementTypes
 
 class ModFormattingModelBuilder : FormattingModelBuilder {
@@ -40,8 +41,8 @@ class ModFormattingModelBuilder : FormattingModelBuilder {
                 }
             }
             assert(nodeType !== ModElementTypes.SEQUENCE) { "Sequence should be inlined!" }
-            assert(nodeType !== ModElementTypes.MAPPING) { "Mapping should be inlined!" }
-            assert(nodeType !== ModElementTypes.DOCUMENT) { "Document should be inlined!" }
+            assert(nodeType !== ModElementTypes.MAPPING && nodeType !== Mod2ElementTypes.MAPPING) { "Mapping should be inlined!" }
+            assert(nodeType !== ModElementTypes.DOCUMENT && nodeType !== Mod2ElementTypes.DOCUMENT) { "Document should be inlined!" }
             return ModFormattingBlock(context, node)
         }
     }

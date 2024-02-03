@@ -4,12 +4,12 @@ import com.intellij.lang.LighterAST
 import com.intellij.lang.LighterASTNode
 import com.intellij.lang.LighterASTTokenNode
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes
-import ps.shanty.intellij.snt.SNTElementTypes
 import com.intellij.lang.properties.psi.PropertyStub
 import com.intellij.lang.properties.psi.impl.PropertyImpl
 import com.intellij.psi.impl.source.tree.LightTreeUtil
 import com.intellij.psi.stubs.*
 import com.intellij.util.CharTable
+import ps.shanty.intellij.snt.SNTElementTypes
 import ps.shanty.intellij.snt.SNTKeyIndex
 import ps.shanty.intellij.snt.psi.SNTEntry
 import java.io.IOException

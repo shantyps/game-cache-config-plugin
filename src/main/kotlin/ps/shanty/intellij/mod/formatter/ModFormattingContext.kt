@@ -21,6 +21,7 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLSequence
 import org.jetbrains.yaml.psi.YAMLSequenceItem
 import org.jetbrains.yaml.psi.YAMLValue
+import ps.shanty.intellij.mod.Mod2ElementTypes
 import ps.shanty.intellij.mod.ModElementTypes
 import ps.shanty.intellij.mod.ModFileType
 import ps.shanty.intellij.mod.ModLanguage
@@ -52,6 +53,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
         val common = mySettings.getCommonSettings(ModLanguage.INSTANCE)
         mySpaceBuilder = SpacingBuilder(mySettings, ModLanguage.INSTANCE)
             .between(YAMLTokenTypes.COLON, ModElementTypes.KEY_VALUE_PAIR).lineBreakInCode()
+            .between(YAMLTokenTypes.COLON, Mod2ElementTypes.KEY_VALUE_PAIR).lineBreakInCode()
             .between(YAMLTokenTypes.COLON, ModElementTypes.SEQUENCE_ITEM).lineBreakInCode()
             .between(ModElementTypes.ALIAS_NODE, YAMLTokenTypes.COLON).spaces(1)
             .before(YAMLTokenTypes.COLON).spaceIf(custom.SPACE_BEFORE_COLON)
@@ -122,7 +124,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
             } else {
                 minLineFeeds = 1
             }
-        } else if (node2Type === ModElementTypes.KEY_VALUE_PAIR) {
+        } else if (node2Type === ModElementTypes.KEY_VALUE_PAIR || node2Type === Mod2ElementTypes.KEY_VALUE_PAIR) {
             if (shouldInlineBlockMappingIntoSequence) {
                 // Set spaces to fit other items indent:
                 // -   a: x # 3 spaces here if indent size is 4
@@ -150,7 +152,7 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
             // Anyway we need to align `-` symbols in block-style sequences
             return myChildIndentAlignments[node.treeParent]
         }
-        if (type === ModElementTypes.KEY_VALUE_PAIR) {
+        if (type === ModElementTypes.KEY_VALUE_PAIR || type === Mod2ElementTypes.KEY_VALUE_PAIR) {
             return myChildIndentAlignments[node.treeParent]
         }
         if (getValueAlignment == ModCodeStyleSettings.ALIGN_ON_COLON) {
@@ -180,33 +182,34 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
         val grand2ParentType =
             if (grandParentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent.treeParent)
         assert(nodeType !== ModElementTypes.SEQUENCE) { "Sequence should be inlined!" }
-        assert(nodeType !== ModElementTypes.MAPPING) { "Mapping should be inlined!" }
-        assert(nodeType !== ModElementTypes.DOCUMENT) { "Document should be inlined!" }
+        assert(nodeType !== ModElementTypes.MAPPING && nodeType !== Mod2ElementTypes.MAPPING) { "Mapping should be inlined!" }
+        assert(nodeType !== ModElementTypes.DOCUMENT && nodeType !== Mod2ElementTypes.DOCUMENT) { "Document should be inlined!" }
         return if (ModElementTypes.DOCUMENT_BRACKETS.contains(nodeType)) {
             SAME_AS_PARENT_INDENT
         } else if (ModElementTypes.BRACKETS.contains(nodeType)) {
             SAME_AS_INDENTED_ANCESTOR_INDENT
         } else if (ModElementTypes.TEXT_SCALAR_ITEMS.contains(nodeType)) {
-            if (grandParentType === ModElementTypes.DOCUMENT) {
+            if (grandParentType === ModElementTypes.DOCUMENT || grandParentType === Mod2ElementTypes.DOCUMENT) {
                 return SAME_AS_PARENT_INDENT
             }
             if (grand2ParentType === ModElementTypes.ARRAY || grand2ParentType === ModElementTypes.HASH) {
                 Indent.getContinuationWithoutFirstIndent()
             } else DIRECT_NORMAL_INDENT
-        } else if (nodeType === ModElementTypes.FILE) {
+//        } else if (nodeType === ModElementTypes.FILE) {
+        } else if (nodeType === Mod2ElementTypes.FILE) {
             SAME_AS_PARENT_INDENT
         } else if (ModElementTypes.SCALAR_VALUES.contains(nodeType)) {
             DIRECT_NORMAL_INDENT
         } else if (nodeType === ModElementTypes.SEQUENCE_ITEM) {
             computeSequenceItemIndent(node)
-        } else if (nodeType === ModElementTypes.KEY_VALUE_PAIR) {
+        } else if (nodeType === ModElementTypes.KEY_VALUE_PAIR || nodeType === Mod2ElementTypes.KEY_VALUE_PAIR) {
             computeKeyValuePairIndent(node)
         } else {
             if (nodeType === YAMLTokenTypes.COMMENT) {
                 if (parentType === ModElementTypes.SEQUENCE) {
                     return computeSequenceItemIndent(node)
                 }
-                if (parentType === ModElementTypes.MAPPING) {
+                if (parentType === ModElementTypes.MAPPING || parentType === Mod2ElementTypes.MAPPING) {
                     return computeKeyValuePairIndent(node)
                 }
             }
@@ -261,10 +264,10 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
     private fun computeSequenceItemIndent(node: ASTNode): Indent {
         val parentType = PsiUtilCore.getElementType(node.treeParent)
         val grandParentType = if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
-        val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT
+        val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT || grandParentType === Mod2ElementTypes.DOCUMENT
         return if (parentType === ModElementTypes.ARRAY) {
             Indent.getSpaceIndent(2)
-        } else if (grandParentType === ModElementTypes.KEY_VALUE_PAIR) {
+        } else if (grandParentType === ModElementTypes.KEY_VALUE_PAIR || grandParentType === Mod2ElementTypes.KEY_VALUE_PAIR) {
             if (shouldIndentSequenceValue) {
                 // key:
                 //   - x
@@ -376,13 +379,13 @@ class ModFormattingContext(val mySettings: CodeStyleSettings, private val myFile
             val parentType = PsiUtilCore.getElementType(node.treeParent)
             val grandParentType =
                 if (parentType == null) null else PsiUtilCore.getElementType(node.treeParent.treeParent)
-            val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT
+            val grandParentIsDocument = grandParentType === ModElementTypes.DOCUMENT || grandParentType === Mod2ElementTypes.DOCUMENT
             return if (parentType === ModElementTypes.HASH) {
                 // {
                 //   key: value
                 // }
                 Indent.getSpaceIndent(2)
-            } else if (grandParentIsDocument || parentType === ModElementTypes.MAPPING) {
+            } else if (grandParentIsDocument || parentType === ModElementTypes.MAPPING || parentType === Mod2ElementTypes.MAPPING) {
                 // ---
                 // key: value
                 SAME_AS_PARENT_INDENT

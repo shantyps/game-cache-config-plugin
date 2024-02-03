@@ -6,6 +6,7 @@ import com.intellij.psi.tree.TokenSet
 import com.intellij.util.containers.Stack
 import org.jetbrains.yaml.YAMLBundle
 import org.jetbrains.yaml.YAMLTokenTypes
+import ps.shanty.intellij.mod.Mod2ElementTypes
 import ps.shanty.intellij.mod.ModElementTypes
 
 class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
@@ -51,7 +52,8 @@ class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
         }
         parseBlockNode(myIndent, false)
         dropEolMarker()
-        marker.done(ModElementTypes.DOCUMENT)
+//        marker.done(ModElementTypes.DOCUMENT)
+        marker.done(Mod2ElementTypes.DOCUMENT)
     }
 
     private fun parseBlockNode(indent: Int, insideSequence: Boolean) {
@@ -87,8 +89,10 @@ class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             if (nodeType == null) {
                 if (parsedTokenType === ModElementTypes.SEQUENCE_ITEM) {
                     nodeType = ModElementTypes.SEQUENCE
-                } else if (parsedTokenType === ModElementTypes.KEY_VALUE_PAIR) {
-                    nodeType = ModElementTypes.MAPPING
+//                } else if (parsedTokenType === ModElementTypes.KEY_VALUE_PAIR) {
+//                    nodeType = ModElementTypes.MAPPING
+                } else if (parsedTokenType === Mod2ElementTypes.KEY_VALUE_PAIR) {
+                    nodeType = Mod2ElementTypes.MAPPING
                 } else if (numberOfItems > 1) {
                     nodeType = ModElementTypes.COMPOUND_VALUE
                 }
@@ -366,7 +370,8 @@ class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
                 parseBlockNode(indent + indentAddition, false)
             }
         }
-        return ModElementTypes.KEY_VALUE_PAIR
+//        return ModElementTypes.KEY_VALUE_PAIR
+        return Mod2ElementTypes.KEY_VALUE_PAIR
     }
 
     private fun parseScalarKeyValue(indent: Int): IElementType {
@@ -392,7 +397,8 @@ class ModParser : PsiParser, LightPsiParser, YAMLTokenTypes {
             rollbackMarker.rollbackTo()
             parseBlockNode(indent + indentAddition, false)
         }
-        return ModElementTypes.KEY_VALUE_PAIR
+//        return ModElementTypes.KEY_VALUE_PAIR
+        return Mod2ElementTypes.KEY_VALUE_PAIR
     }
 
     private fun parseSequenceItem(indent: Int): IElementType {

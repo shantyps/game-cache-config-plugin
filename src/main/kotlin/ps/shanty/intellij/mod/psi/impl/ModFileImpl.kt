@@ -5,9 +5,9 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.tree.TokenSet
 import org.jetbrains.yaml.psi.YAMLDocument
-import ps.shanty.intellij.mod.ModElementTypes
-import ps.shanty.intellij.mod.ModLanguage
+import ps.shanty.intellij.mod.Mod2ElementTypes
 import ps.shanty.intellij.mod.ModFileType
+import ps.shanty.intellij.mod.ModLanguage
 import ps.shanty.intellij.mod.psi.ModFile
 
 class ModFileImpl(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ModLanguage.INSTANCE),
@@ -23,7 +23,7 @@ class ModFileImpl(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Mo
 
     override fun getDocuments(): List<YAMLDocument> {
         val result = ArrayList<YAMLDocument>()
-        for (node in node.getChildren(TokenSet.create(ModElementTypes.DOCUMENT))) {
+        for (node in node.getChildren(TokenSet.create(Mod2ElementTypes.DOCUMENT/*, ModElementTypes.DOCUMENT*/))) {
             result.add(node.psi as YAMLDocument)
         }
         return result

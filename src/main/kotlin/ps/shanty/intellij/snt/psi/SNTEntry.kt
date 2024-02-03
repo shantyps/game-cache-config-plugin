@@ -6,4 +6,4 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.StubBasedPsiElement
 import ps.shanty.intellij.snt.ISNTEntry
 
-interface SNTEntry : PsiNamedElement, StubBasedPsiElement<PropertyStub?>, NavigatablePsiElement, ISNTEntry
+interface SNTEntry : PsiNamedElement, StubBasedPsiElement<PropertyStub>, NavigatablePsiElement, ISNTEntry

@@ -68,8 +68,10 @@ object ModElementTypes {
         SCALAR_LIST_VALUE,
         SCALAR_TEXT_VALUE,
         DOCUMENT,
+        Mod2ElementTypes.DOCUMENT,
         SEQUENCE,
         MAPPING,
+        Mod2ElementTypes.MAPPING,
         SCALAR_QUOTED_STRING,
         SCALAR_PLAIN_VALUE
     )
@@ -88,14 +90,23 @@ object ModElementTypes {
 
     var TOP_LEVEL = TokenSet.create(
         FILE,
-        DOCUMENT
+        Mod2ElementTypes.FILE,
+        DOCUMENT,
+        Mod2ElementTypes.DOCUMENT,
     )
 
     var INCOMPLETE_BLOCKS = TokenSet.create(
         MAPPING,
+        Mod2ElementTypes.MAPPING,
         SEQUENCE,
         COMPOUND_VALUE,
         SCALAR_LIST_VALUE,
         SCALAR_TEXT_VALUE
+    )
+
+    var PLAIN_SCALAR_TEXTS = TokenSet.create(
+        SCALAR_TEXT_VALUE,
+        SCALAR_PLAIN_VALUE,
+        SCALAR_QUOTED_STRING
     )
 }

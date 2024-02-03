@@ -8,14 +8,13 @@ import com.intellij.lang.properties.psi.impl.PropertiesStubElementImpl
 import com.intellij.lang.properties.psi.impl.PropertyImpl
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.util.Iconable.IconFlags
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.util.IncorrectOperationException
-import com.intellij.util.PlatformIcons
+import ps.shanty.intellij.PluginIcons
 import ps.shanty.intellij.snt.psi.SNTEntry
 import ps.shanty.intellij.snt.psi.SNTFile
 import ps.shanty.intellij.snt.psi.SNTManipulator
@@ -108,8 +107,8 @@ class SNTEntryImpl : PropertiesStubElementImpl<PropertyStub?>, SNTEntry, PsiLang
     override val unescapedKey: String?
         get() = unescape(key)
 
-    override fun getElementIcon(@IconFlags flags: Int): Icon? {
-        return PlatformIcons.PROPERTY_ICON
+    override fun getElementIcon(flags: Int): Icon {
+        return PluginIcons.CHART
     }
 
     @Throws(IncorrectOperationException::class)
