@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - N/A
 
+## [1.3.1] - 2024-02-13
+
+### Added
+
+- Bump IntelliJ version support to 233.*
+
 ## [1.3.0] - 2024-02-03
 
 ### Added
